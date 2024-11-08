@@ -1,0 +1,41 @@
+.container {
+    margin: 75px 10px 30px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    color: #fff;
+
+}
+
+.emptyStar, .fullStar {
+    color: rgb(255, 255, 0);
+    font-size: 35px;
+    cursor: pointer;
+}
+.teacherStar {
+    color: rgb(255, 255, 12);
+}
+.card {
+    background-color: #3d322baa;
+    padding-left: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    position: relative;
+}
+.generateStarsBtn{
+    background: none;
+    outline: none;
+    border: none;
+}
+.img {
+    margin-top: 5px;
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(255, 255, 255) 0px 0px 0px 3px;
+}
+
+.teacherRate {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+}

@@ -1,0 +1,56 @@
+.container {
+    margin: 7%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    min-height: 100vh;
+
+}
+.images img {
+    width: 200px;
+    height: auto;
+    cursor:pointer;
+    transition: all 200ms ease-in-out;
+}
+.images img:hover {
+    transform: scale(1.1); 
+}
+
+.creditCard {
+    width: 100%;
+}
+.formCard {
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+}
+.checkOut {
+    padding: 10px 0 0 10px;
+}
+.checkOut h3 {
+    text-align: center;
+}
+.number, .name , .cvv, .date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.numberInput, .nameInput, .cvvInput , .monthYears {
+    width: 60%;
+    height: 30px;
+    outline: none;
+    /* font-size: 18px; */
+}
+.monthYears {
+    display: flex;
+    gap: 10px;
+}
+.months {
+    width: 50px;
+    border-radius: 5px;
+}
+.years {
+    width: 70px;
+    border-radius: 5px;
+}

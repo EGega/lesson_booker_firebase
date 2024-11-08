@@ -1,0 +1,35 @@
+.container{
+    height: calc(100vh);
+    margin-top: 75px;
+    width: 100%;  
+    background-image: url("../../assets/teacherbg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 50px;
+    row-gap: 50px;
+    padding: 20px;
+    }
+    
+    .container div {
+      background-color: #3d322bed;
+      display: flex;
+      flex-direction: column;
+    }
+    .container img {
+      height: 80%;
+      width: 100%;
+    }
+    .container button {
+      background-color: #8f674f;
+      color: #fff;
+      margin: auto;
+      font-size: 1.1rem;
+      outline: none;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }

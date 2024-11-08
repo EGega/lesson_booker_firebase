@@ -1,0 +1,2 @@
+export const loginIcons = {color: "#FF69B4"}
+// Here I am creating some special styles that I can import and reuse, especially for the icons since I do not want to write interior code or even worse use the provider

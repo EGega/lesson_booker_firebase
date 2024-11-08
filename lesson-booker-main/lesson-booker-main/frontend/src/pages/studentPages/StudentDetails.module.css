@@ -1,0 +1,33 @@
+.container {
+    width: 100%;
+    height: calc(100vh - 65px);
+    margin-top: 65px;
+    padding:20px 20px 0 20px ;
+
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    }
+
+
+.img {
+        height: 300px;
+        width: 300px;
+        border-radius: 50%;
+}
+
+.inputDiv {
+    display: grid;
+    gap: 20px;
+}
+
+.comment {
+    height: 500px;
+    text-align: top;
+    resize: none;
+    outline: none;
+    font-size: 20px;
+}
+.goBackBtn {
+    margin-top: 20px;
+}

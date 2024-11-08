@@ -1,0 +1,29 @@
+.container {
+    background-color: antiquewhite;
+    height: 180px ;
+    width: 20%;
+    margin-right: 30px;
+    /* padding: 30px 20px; */
+    padding-left: 10px;
+    
+}
+
+.button {
+    background-color: #ffd814;
+    border-color: #fcd200;
+    padding: 5px;
+    width: 80%;
+    cursor: pointer;
+    
+}
+
+.redirect {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    margin-left: -10%;
+}

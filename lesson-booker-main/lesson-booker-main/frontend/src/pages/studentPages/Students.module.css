@@ -1,0 +1,57 @@
+.container{
+  margin-top: 75px;
+  width: 100%;  
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 50px;
+  row-gap: 50px;
+  padding: 20px;
+  }
+
+  .card {
+  background-color: #3d322baa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+  }
+  .img {
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(255, 255, 255) 0px 0px 0px 3px;
+  }
+  .name {
+    color: #fff;
+    font-size: 1rem;
+    display: flex;
+    gap: 10px;
+  }
+  .genAge {
+    color: #fff;
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    background-color:  #4a3d2a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    font-size: 18px;
+    letter-spacing: 0.7px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+    text-decoration: none;
+
+  }
+  .btn:hover {
+    background-color: #4a3d2ad0;
+    transition: all 200ms ease-in;
+  }

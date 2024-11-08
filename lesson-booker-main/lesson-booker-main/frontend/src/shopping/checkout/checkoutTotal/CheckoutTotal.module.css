@@ -1,0 +1,40 @@
+.container {
+    padding: 10px 10px 0 0;
+}
+
+.selectedBooks {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.selectedBooks img {
+    height: 50px;
+    width: 50px;
+}
+
+.book {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 0.5fr;
+    gap: 10px;
+    background-color: #ffd814c6;
+}
+
+.button {
+    width: 100%;
+    font-size: 1.2rem;
+    background-color: #ffd814;
+    border-color: #fcd200;
+    cursor: pointer;
+    padding: 10px;
+    transition: all 200ms ease-in-out;
+}
+
+.button:focus {
+    transform: scale(1.01);
+}
+.delete {
+    margin: auto;
+    cursor: pointer;
+    fill: #ff0000;
+}

@@ -1,0 +1,53 @@
+body {
+    height: 100%;
+}
+.container {
+    margin-top: 65px;
+    padding-top:20px ;
+    width: 100%;
+    height: calc(100vh - 65px);
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: space-around;
+}
+
+.imgDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.image {
+    width: calc(100vw / 2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
+}
+.btn {
+    background-color: green;
+    padding: 10px;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+}
+.goBackBtn {
+    background-color: rgb(0, 83, 128);
+    padding: 10px;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50px;
+    left: calc(50% - 50px) ;
+}
+.infoDiv {
+    height: 50%;
+    padding: 15px 30px;
+    color: rgb(15, 9, 9);
+    background-color:rgba(246, 235, 221, 0.816);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
+}

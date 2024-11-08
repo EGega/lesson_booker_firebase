@@ -1,0 +1,79 @@
+.container {
+    margin-top: 90px;
+    margin-left: 10%;
+    /* margin-right: 30%; */
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+ 
+.products {
+ display: grid;
+ grid-template-columns: repeat(1, 1fr);
+ gap: 30px;
+ width: 70%;
+}
+.product {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    background-color: antiquewhite;
+}
+
+.img {
+    height: 150px;
+    width: 150px;
+}
+.nameAndPrice {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+    width: 100%;
+}
+
+.nameAmountDelete {
+    width: 80%;
+}
+.incDecDel {
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+}
+
+
+.delete {
+    cursor: pointer;
+    font-size: 21px;
+    fill: #ff0000;
+}
+
+.incDec {
+display: flex;
+gap: 10px;
+}
+.dec, .inc {
+    cursor: pointer;
+    font-size: 21px;
+}
+.inc {
+    fill: #1dc400;
+}
+.dec {
+    fill: #ff0000;
+}
+
+.number {
+    width: 50px;
+    text-align: center;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
