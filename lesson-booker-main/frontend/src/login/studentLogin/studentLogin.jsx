@@ -182,9 +182,11 @@ try {
   console.log(auth.currentUser.displayName);
   
 }
-const googleLoginHandler = async () => {
+const googleLoginHandler = async (e) => {
+  e.preventDefault()
   try {
     await signInWithPopup(auth, googleProvider)
+    navigate('/') 
   } catch (error) {
     console.log(error);
     
