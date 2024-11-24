@@ -6,9 +6,10 @@ import { loginIcons } from '../../components/styled/iconStylers'
 import { useNavigate } from 'react-router-dom'
 import { loginActions } from '../../store'
 import { useDispatch } from 'react-redux'
-import { auth } from '../../firebase/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import styled from "./teacher.module.css"
+import { auth, googleProvider } from '../../firebase/firebase'
+import { signInWithEmailAndPassword, signInWithPopup} from 'firebase/auth'
 const TeacherLogin = ({setLogin}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -28,6 +29,18 @@ try {
 }
 
 }
+
+const googleLoginHandler = async (e) => {
+  e.preventDefault()
+  try {
+    await signInWithPopup(auth, googleProvider)
+    dispatch(loginActions.loginToggler("teacher"))
+    navigate('/') 
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
   const handleChange = ({currentTarget: input}) => {
     setData({...data, [input.name]: input.value})
   }
@@ -43,7 +56,7 @@ try {
   }, [error]);
   
    
-    console.log(auth.currentUser.displayName);
+    
   
   return (
     <LoginContainer > 
@@ -58,7 +71,11 @@ try {
           <RiLockPasswordFill style={loginIcons}/>
           <input type="password" id='password'  placeholder='Type your password' name='password' onChange={handleChange} value={data.password} required/>
           </InputStyle>
+          {error &&  <div className={styled.error_msg}>{error}</div>}
+          <div className={styled.loginDiv}>
           <LoginBtn onClick={loginHandler}> Login </LoginBtn>
+          <LoginBtn onClick={googleLoginHandler}> Google Login </LoginBtn>
+          </div>
         </FormStyle>
         {/* Not a user */}
         <NotAnUser >

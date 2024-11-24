@@ -178,8 +178,6 @@ try {
   
 }
 
- 
-  console.log(auth.currentUser.displayName);
   
 }
 const googleLoginHandler = async (e) => {
