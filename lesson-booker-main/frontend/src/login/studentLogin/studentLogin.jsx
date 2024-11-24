@@ -156,11 +156,10 @@ import { loginActions, updateUserFullName } from '../../store'
 import { useDispatch } from 'react-redux'
 import axios from "axios"
 import styled from "./styles.module.css"
-import { auth } from '../../firebase/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth, googleProvider } from '../../firebase/firebase'
+import { signInWithEmailAndPassword, signInWithPopup} from 'firebase/auth'
 
 const StudentLogin = ({setLogin}) => {
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [data, setData] = useState({email: "", password: ""})
@@ -183,6 +182,16 @@ try {
   console.log(auth.currentUser.displayName);
   
 }
+const googleLoginHandler = async () => {
+  try {
+    await signInWithPopup(auth, googleProvider)
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+
 
   const handleChange = ({currentTarget: input}) => {
     setData({...data, [input.name]: input.value})
@@ -200,7 +209,7 @@ try {
   return (
     <LoginContainer >
       <LoginInnerContainer>
-        <FormStyle>
+        <FormStyle className={styled.form}>
         <h3> Student Login</h3>
           <InputStyle>
           <TbUserCircle style={loginIcons} />
@@ -211,7 +220,10 @@ try {
           <input type="password" id='password' name='password'  placeholder='Type your password' onChange={handleChange} value={data.password} required />
           </InputStyle>
           {error &&  <div className={styled.error_msg}>{error}</div>}
+          <div className={styled.loginDiv}>
           <LoginBtn onClick={loginHandler}> Login </LoginBtn>
+          <LoginBtn onClick={googleLoginHandler}> Google Login </LoginBtn>
+          </div>
         </FormStyle>
         {/* Not a user */}
         <NotAnUser >

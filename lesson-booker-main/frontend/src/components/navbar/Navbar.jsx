@@ -29,7 +29,7 @@ console.log(role, logged, user);
       <div className={styles.imageDiv}>
        <img className={styles.avatarImage} onClick={() => {
          setNavbarModuleVisibility((prevValue) => !prevValue)
-       }} src={eneaPic} alt="username will come here" />
+       }} src={eneaPic} alt={auth.currentUser.displayName}/>
        <Numerator/>
       </div> 
      </div>
