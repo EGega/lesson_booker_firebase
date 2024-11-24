@@ -8,13 +8,14 @@ import {useState} from 'react'
 import { useSelector } from 'react-redux'
 import NavbarModule from './navbarModule/NavbarModule'
 import Numerator from '../../shopping/numerator/Numerator'
+import { auth } from '../../firebase/firebase'
 const Navbar = () => {
 const {logged, role,} =  useSelector((state) => state.login)
 const {user} = useSelector((state) => state)
 console.log(role, logged, user);
   const [navbarModuleVisibility, setNavbarModuleVisibility] = useState(false)
   return (
-    <>
+    <> 
     <NavbarStyle>
      <div className={styles.linkDiv}>
       <li><Link to="/profile">Profile</Link></li>
@@ -24,7 +25,7 @@ console.log(role, logged, user);
      </div>
      <div className={styles.imgDiv}>
       <LoginBtn><Link to="/">Home</Link></LoginBtn>
-      <Link to="/profile"> {role === "student" ? `${user.firstName} ${user.lastName}` : "Teacher Enea" }</Link>
+      <Link to="/profile"> {role === "student" ? `${auth.currentUser.displayName}` :  `Teacher ${auth.currentUser.displayName}` }</Link>
       <div className={styles.imageDiv}>
        <img className={styles.avatarImage} onClick={() => {
          setNavbarModuleVisibility((prevValue) => !prevValue)
