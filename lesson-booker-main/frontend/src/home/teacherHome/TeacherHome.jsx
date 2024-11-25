@@ -32,7 +32,7 @@ const Teacherhome = () => {
         </div>
         <div>
         <img src={administration} alt="administration" />
-        <button>Administration</button>
+        <button onClick={() => navigate("/administration")}>Administration</button>
         </div>
         <div>
         <img src={review}  alt="review" />

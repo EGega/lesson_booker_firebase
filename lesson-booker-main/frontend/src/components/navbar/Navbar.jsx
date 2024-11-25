@@ -1,5 +1,5 @@
 import React from 'react'
-import eneaPic from "../../assets/enea.jpg"
+import maleAvatar from "../../assets/maleAvatar.jpg"
 import { NavbarStyle } from '../styled/navbarStyled/navbar'
 import { Link } from 'react-router-dom'
 import styles from "./Navbar.module.css"
@@ -29,14 +29,14 @@ console.log(role, logged, user);
       <div className={styles.imageDiv}>
        <img className={styles.avatarImage} onClick={() => {
          setNavbarModuleVisibility((prevValue) => !prevValue)
-       }} src={eneaPic} alt={auth.currentUser.displayName}/>
+       }} src={auth.currentUser.photoURL ?? maleAvatar} alt={auth.currentUser.displayName}/>
        <Numerator/>
       </div> 
      </div>
       {/* The code below is just another way to create an "effective toggler that I just came up with"  */}
       {/* { navbarModule % 2 === 0 ? <NavbarModule className={styles.navbarModule} /> : null} */}
 
-      {navbarModuleVisibility && <NavbarModule img={eneaPic} className={styles.navbarModule} />}
+      {navbarModuleVisibility && <NavbarModule img={auth.currentUser.photoURL ?? maleAvatar} className={styles.navbarModule} />}
 
     </NavbarStyle>
     </>

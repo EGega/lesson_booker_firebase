@@ -10,6 +10,7 @@ import LessonCalendar from "../pages/calendars/LessonCalendar";
 import Profile from "../pages/teacherPages/profile/Profile";
 import LessonInfo from "../pages/teacherPages/lessonInfo/LessonInfo";
 import Feedback from "../pages/feedback/Feedback";
+import Administration from '../pages/teacherPages/adminstration/Administration';
 
 const TeacherRouter = () => {
   return (
@@ -25,6 +26,7 @@ const TeacherRouter = () => {
         <Route path='/profile' element={<Profile />} />
         <Route path='/lessoninfo' element={<LessonInfo />} />
         <Route path='/feedback' element={<Feedback />} />
+        <Route path='/administration' element={<Administration />} />
    </Routes>
  </>
     )

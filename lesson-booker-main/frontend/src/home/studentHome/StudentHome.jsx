@@ -32,7 +32,7 @@ const StudentHome = () => {
         </div>
         <div>
         <img src={administration} alt="administration" />
-        <button>Administration</button>
+        <button onClick={() => navigate("/Administration")}>Administration</button>
         </div>
         <div>
         <img src={review}  alt="review" />

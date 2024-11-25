@@ -10,6 +10,7 @@ const NavbarModule = ({img}) => {
           await signOut(auth)
           navigate("/login")
          } catch (error) {
+          console.log(error);
           
          }
     }
