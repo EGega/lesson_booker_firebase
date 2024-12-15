@@ -28,7 +28,7 @@ const StudentHome = () => {
         </div>
         <div>
         <img src={videos} alt="videos" />
-        <button>Videos</button>
+        <button  onClick={() => navigate("/student-list")} >StudentList</button>
         </div>
         <div>
         <img src={administration} alt="administration" />

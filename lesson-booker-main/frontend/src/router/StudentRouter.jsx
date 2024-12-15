@@ -14,6 +14,7 @@ import Cart from '../shopping/cart/Cart';
 import CheckoutPage from '../shopping/checkout/CheckoutPage';
 import Success from '../payments/Success';
 import Cancel from '../payments/Cancel';
+import StudentList from '../home/studentHome/StudentList';
 const StudentRouter = () => {
   return (
     <>
@@ -22,6 +23,7 @@ const StudentRouter = () => {
         <Route path='/teachers' element={<Teachers/>}/>
         <Route path='/teachers/:id' element={<TeacherDetails />} />
         <Route path='/student-classes' element={<StudentClasses/>}/>
+        <Route path='/student-list' element={<StudentList/>}/>
         <Route path='/books' element={<Books/>}/>
         <Route path='/books/:id' element={<BookDetails/>}/>
         <Route path='/calendar' element={<LessonCalendar />} />
