@@ -1,6 +1,6 @@
 import React from 'react'
 import {db} from "../../firebase/firebase"
-import { getDocs, collection, addDoc, deleteDoc } from "firebase/firestore" 
+import { getDocs, collection, addDoc, deleteDoc,doc } from "firebase/firestore" 
 import { useState, useEffect } from "react"
 
 const StudentList = () => {
@@ -28,9 +28,10 @@ useEffect(() => {
     getStudentList()
 }, []);
 
-const deleteStudent = async () => {
-    const movieDoc = doc (db, "movies")
-    await deleteDoc
+const deleteStudent = async (id) => {
+     const studentDoc = doc(db, "students", id)
+     await deleteDoc(studentDoc)
+     setstudentList((prevList) => prevList.filter((student) => student.id !== id));
 }
 
 const onSubmitStudent = async () => {
@@ -40,7 +41,7 @@ const onSubmitStudent = async () => {
         Name: newStName,
         Last_Name: newStSurname,
         YearBorn: bornYear,
-        hasPaid: true,
+        hasPaid: hasPaid,
       })
    } catch (error) {
     console.error(error);
@@ -64,6 +65,18 @@ const onSubmitStudent = async () => {
         Submit the Student
         </button>
 
+    </div>
+    <div>
+        {studentList.map((student) => {
+            return (
+                <div>
+                <h6>{student.Name}</h6>
+                <h6>{student.Last_Name}</h6>
+                <h6>{student.hasPaid ? "Paying Student": "Non Paying Student"}</h6>
+                <button onClick={() => deleteStudent(student.id)}>Delete Student</button>
+            </div>
+            )
+        })}
     </div>
     </>
 
