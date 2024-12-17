@@ -10,7 +10,7 @@ const Administration = () => {
     console.log(studentCollectionRef);
         
    // READ THE DATA
-   // SET THE MOVIE LIST
+  
    try {
     const data = await getDocs(studentCollectionRef)
     console.log(data);

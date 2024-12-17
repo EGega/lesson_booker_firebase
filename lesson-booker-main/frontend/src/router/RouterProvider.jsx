@@ -1,28 +1,48 @@
-import  {BrowserRouter, Routes, Route} from "react-router-dom";
-import Login from '../login/Login'
-import Register from '../login/Register';
-import PrivateRouter from './PrivateRouter';
-import TeacherRouter from "./TeacherRouter";
-import StudentRouter from "./StudentRouter";
-import { useSelector } from "react-redux";
-const RouterProvider = () => {
-const { logged, role } = useSelector((state) => state.login);
+// import  {BrowserRouter, Routes, Route} from "react-router-dom";
+// import Login from '../login/Login'
+// import Register from '../login/Register';
+// import PrivateRouter from './PrivateRouter';
+// import TeacherRouter from "./TeacherRouter";
+// import StudentRouter from "./StudentRouter";
+// import { useSelector } from "react-redux";
+// const RouterProvider = () => {
+// const { logged, role } = useSelector((state) => state.login);
   
+//   return (
+//     <>
+//  <BrowserRouter >
+//     <Routes>
+//       <Route element={<PrivateRouter />}>
+//       { role === "teacher" ? < Route path='/*' element={<TeacherRouter />} /> :  < Route path='/*' element={<StudentRouter />} /> }  
+//       </Route>
+//       <Route path='/login' element={<Login/>}/>
+//       <Route path='/register' element={<Register />}>
+//       </Route>
+//     </Routes>
+
+//  </BrowserRouter>
+//     </>
+//   )
+// }
+
+// export default RouterProvider
+
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "../login/Login";
+import Register from "../login/Register";
+import PrivateRouter from "./PrivateRouter";
+
+const RouterProvider = () => {
   return (
-    <>
- <BrowserRouter >
-    <Routes>
-      <Route element={<PrivateRouter />}>
-      { role === "teacher" ? < Route path='/*' element={<TeacherRouter />} /> :  < Route path='/*' element={<StudentRouter />} /> }  
-      </Route>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/register' element={<Register />}>
-      </Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/*" element={<PrivateRouter />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
- </BrowserRouter>
-    </>
-  )
-}
-
-export default RouterProvider
+export default RouterProvider;

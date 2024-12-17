@@ -1,5 +1,5 @@
 import React from 'react'
-import {db} from "../../firebase/firebase"
+import {db, auth} from "../../firebase/firebase"
 import { getDocs, collection, addDoc, deleteDoc,doc } from "firebase/firestore" 
 import { useState, useEffect } from "react"
 
@@ -42,7 +42,9 @@ const onSubmitStudent = async () => {
         Last_Name: newStSurname,
         YearBorn: bornYear,
         hasPaid: hasPaid,
+        userId: auth?.currentUser.uid
       })
+      getStudentList()
    } catch (error) {
     console.error(error);
     
