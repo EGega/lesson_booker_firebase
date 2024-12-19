@@ -85,7 +85,7 @@ const cartSlice = createSlice({
 const store = configureStore({
   reducer: {
     login: loginSlice.reducer,
-    cart: cartSlice.reducer,
+    cart: cartSlice.reducer, 
     user: userSlice.reducer
   }
 })
