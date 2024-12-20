@@ -6,12 +6,10 @@ import {BsFillPersonVcardFill} from "react-icons/bs"
 import {BsPersonVcard} from "react-icons/bs"
 import { loginIcons } from '../../components/styled/iconStylers'
 import { useNavigate } from 'react-router-dom'
-// import { updateUserFullName } from '../../store'
 import { useDispatch } from 'react-redux'
-// import axios from "axios"
 import { auth } from '../../firebase/firebase'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-
+import { addUser } from '../functions/users' 
 const StudentRegister = ({setRegister}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -21,7 +19,6 @@ const StudentRegister = ({setRegister}) => {
     lastName: "",
     email: "",
     password: "",
-    // userType: "student"
    })
 
 
@@ -34,6 +31,7 @@ const StudentRegister = ({setRegister}) => {
      await updateProfile(user, {
       displayName: `${data.firstName} ${data.lastName}`
      })
+     await addUser(data.firstName, data.lastName, user.uid);
       navigate('/login') 
       console.log(auth);
     } catch (err) {
