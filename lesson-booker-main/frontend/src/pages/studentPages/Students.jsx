@@ -1,18 +1,32 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '../../components/navbar/Navbar'
-import { students } from '../../data/data'
 import styled from './Students.module.css'
 import { Link } from 'react-router-dom';
-// for the moment I am creating a fake students website and will put user generated students for backend
+import { db, auth } from '../../firebase/firebase';
+import { getDocs, collection } from 'firebase/firestore';
+import React from 'react';
 const Students = () => {
+ const [studentList, setstudentList] = useState([]) 
+
+ const studentCollectionRef = collection(db, "students");
+ 
+ const getStudentList = async () => {
+     const data = await getDocs(studentCollectionRef)
+     const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+     setstudentList(filteredData)
+     console.log(filteredData);
+   }
+   useEffect(() => {
+       getStudentList()
+   }, []);
   return (
     <>
    <Navbar/>
    <div className={styled.container}>
-   {students.map((student) => {
-    const {id, firstName, lastName, gender, img, age} = student
+   {studentList.map((student) => {
+    const {uid, firstName, lastName, gender, img, age} = student
     return(
-   <div className={styled.card} key={id}>
+   <div className={styled.card} key={uid}>
       <img className={styled.img} src={img} alt="" />
       <div className={styled.name}>
         <h2>{firstName}</h2>
@@ -23,7 +37,7 @@ const Students = () => {
         <h3>{age}</h3>
       </div>
      
-       <Link to={`/students/${id}`} className={styled.btn}>
+       <Link to={`/students/${uid}`} className={styled.btn}>
               Details
       </Link>
      
