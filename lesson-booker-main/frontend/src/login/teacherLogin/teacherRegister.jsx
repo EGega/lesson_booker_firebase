@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux'
 import { auth } from '../../firebase/firebase'
 import { useState,useEffect } from 'react'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { db } from '../../firebase/firebase'
+import { addTeacherUser } from '../functions/users' 
 const TeacherRegister = ({setRegister}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,6 +32,7 @@ const TeacherRegister = ({setRegister}) => {
      await updateProfile(user, {
       displayName: `${data.firstName} ${data.lastName}`
      })
+     await addTeacherUser(data.firstName, data.lastName, user.uid)
       navigate('/login') 
       console.log(auth);
     } catch (err) {
