@@ -25,15 +25,15 @@ const [teacherInfo, setTeacherInfo] = useState({
 
  const getTeacher = async () => {
   const teacherRef = collection(db,"teachers")
-  // const snap = await getDoc(doc(db, "teachers", "fnlUhwosXJMkvSVCcK33")) 
-  // if (snap.exists()) {
-  //   console.log(snap.data())
-  // }
-  // else {
-  //   console.log("No such document")
-  // }
-  const q = query(teacherRef, where("userId", '==', auth.currentUser.uid))
-   console.log(q)
+  const snap = await getDoc(doc(db, "teachers", auth.currentUser.uid)) 
+  if (snap.exists()) {
+    setTeacherInfo(snap.data())
+    console.log(snap.data())
+    console.log(teacherInfo);
+  }
+  else {
+    console.log("No such document")
+  }
  }
 useEffect(() => {
  getTeacher()
@@ -46,9 +46,9 @@ const [editing, setEditing] = useState(false)
     {!editing ? 
     <div>
      <img src={eneaPic}  className={styled.image} alt="" />
-       <h3>{teacherInfo.name}</h3>
+       <h3>{teacherInfo.firstName}</h3>
+       <h3>{teacherInfo.lastName}</h3>
        <h3>{teacherInfo.profession}</h3>
-       <h3>{teacherInfo.age}</h3>
        <h3>{teacherInfo.country}</h3>
        <a className={styled.videoLink} href={teacherInfo.introVideo} target='blank'>Intro Video</a>
        <button onClick={() => {
