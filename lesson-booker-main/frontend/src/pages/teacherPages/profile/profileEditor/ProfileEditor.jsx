@@ -101,6 +101,7 @@ const [editing, setEditing] = useState(false)
         setTeacherInfo({...teacherInfo, gender: e.target.value })
       }}
       name="gender" id="gender">
+          <option value=""  disabled >Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
      </select>
