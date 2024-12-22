@@ -6,6 +6,7 @@ import { useState } from "react"
 import CertificateModal from "./CertificateModal"
 import { Link } from "react-router-dom"
 import ProfileEditor from "./profileEditor/ProfileEditor"
+
 const Profile = () => {
   const [enlargedImg, setenlargedImg] = useState(null)
 

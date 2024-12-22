@@ -1,16 +1,44 @@
-import{ useState } from 'react'
+import{ useState, useEffect } from 'react'
 import eneaPic from "../../../../assets/enea.jpg"
 import styled from './ProfileEditor.module.css'
 import Navbar from '../../../../components/navbar/Navbar'
+import { db, auth } from '../../../../firebase/firebase'
+import { updateDoc, doc, collection, getDocs, getDoc, query, where } from "firebase/firestore" 
 const ProfileEditor = () => {
-  
+  const updateDocument = async (collectionName, docId, updatedData) => {
+    try {
+        const docRef = doc(db, collectionName, docId); 
+        await updateDoc(docRef, updatedData);
+        console.log("Document updated successfully!");
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+};
 const [teacherInfo, setTeacherInfo] = useState({
-  name: "Name:",
-  profession: "Profession:",
-  age: "Age:",
-  country: "Country:",
+  firstName: "",
+  lastName: "",
+  profession: "",
+  age: "",
+  country: "",
   introVideo: ""
 })
+
+ const getTeacher = async () => {
+  const teacherRef = collection(db,"teachers")
+  // const snap = await getDoc(doc(db, "teachers", "fnlUhwosXJMkvSVCcK33")) 
+  // if (snap.exists()) {
+  //   console.log(snap.data())
+  // }
+  // else {
+  //   console.log("No such document")
+  // }
+  const q = query(teacherRef, where("userId", '==', auth.currentUser.uid))
+   console.log(q)
+ }
+useEffect(() => {
+ getTeacher()
+}, [])
+
 
 const [editing, setEditing] = useState(false)
   return (

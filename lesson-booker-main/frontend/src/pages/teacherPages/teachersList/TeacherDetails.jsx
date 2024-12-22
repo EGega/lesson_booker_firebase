@@ -18,6 +18,7 @@ const TeacherDetails = () => {
    setVideo((prev) => !prev)
    console.log(video);
   }
+  // const gender = "Male"
   return (
     <>
       <Navbar />

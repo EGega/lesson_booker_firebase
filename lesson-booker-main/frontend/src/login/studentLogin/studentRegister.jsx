@@ -19,6 +19,7 @@ const StudentRegister = ({setRegister}) => {
     lastName: "",
     email: "",
     password: "",
+    gender: ""
    })
 
 
@@ -31,7 +32,7 @@ const StudentRegister = ({setRegister}) => {
      await updateProfile(user, {
       displayName: `${data.firstName} ${data.lastName}`
      })
-     await addStudentUser(data.firstName, data.lastName, user.uid);
+     await addStudentUser(data.firstName, data.lastName, user.uid, data.gender);
       navigate('/login') 
       console.log(auth);
     } catch (err) {

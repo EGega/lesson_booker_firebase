@@ -5,25 +5,42 @@ import {teachers} from '../../../data/teachersList'
 import { Link } from 'react-router-dom'
 import maleAvatar from "../../../assets/maleAvatar.jpg"
 import femaleAvatar from "../../../assets/femaleAvatar.png"
+import { db, auth } from '../../../firebase/firebase'
+import { getDocs, collection } from 'firebase/firestore';
+import { useEffect, useState } from 'react'
 const Teachers = () => {
+   const [teacherList, setTeacherList] = useState([]) 
+  
+   const teacherCollectionRef = collection(db, "teachers");
+   
+   const getTeacherList = async () => {
+       const data = await getDocs(teacherCollectionRef)
+       const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+       setTeacherList(filteredData)
+       console.log(filteredData);
+     }
+        useEffect(() => {
+          getTeacherList()
+        }, []);
   return (
   <>
   <Navbar />
   <div className={styled.container}>
-   {teachers.map((teacher) => {
-    const {id, name, birthyear, gender} = teacher
+   {teacherList.map((teacher) => {
+    const {uid, firstName, lastName} = teacher
+    const gender = "Male"
     return (
-        <div className={styled.card} key={id}>
+        <div className={styled.card} key={uid}>
         <img className={styled.img} src={gender === "Male" ? maleAvatar : femaleAvatar} />
         <div className={styled.name}>
-          <h2>{ gender === "Male" ? "Mr. " + name : "Ms. " + name}</h2>
+          <h2>{ gender === "Male" ? "Mr. " + firstName : "Ms. " + lastName}</h2>
         </div>
         <div className={styled.genAge}>
-          <h3>{new Date().getFullYear() - birthyear}</h3>
+          <h3>{new Date().getFullYear()}</h3>
           <h3>{gender}</h3>
         </div>
        
-         <Link to={`/teachers/${id}`} className={styled.btn}>
+         <Link to={`/teachers/${uid}`} className={styled.btn}>
                 Details
         </Link>
        

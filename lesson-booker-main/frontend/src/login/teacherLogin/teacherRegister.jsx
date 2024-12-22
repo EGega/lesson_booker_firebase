@@ -22,6 +22,7 @@ const TeacherRegister = ({setRegister}) => {
     lastName: "",
     email: "",
     password: "",
+    gender: ""
     // userType: "student"
    })
   const registerHandler = async (e) => {
@@ -32,7 +33,7 @@ const TeacherRegister = ({setRegister}) => {
      await updateProfile(user, {
       displayName: `${data.firstName} ${data.lastName}`
      })
-     await addTeacherUser(data.firstName, data.lastName, user.uid)
+     await addTeacherUser(data.firstName, data.lastName, user.uid, data.gender)
       navigate('/login') 
       console.log(auth);
     } catch (err) {
