@@ -18,9 +18,10 @@ const [teacherInfo, setTeacherInfo] = useState({
   firstName: "",
   lastName: "",
   profession: "",
-  age: "",
+  birthYear: "",
   country: "",
-  introVideo: ""
+  introVideo: "",
+  gender:""
 })
 
 
@@ -86,8 +87,8 @@ const [editing, setEditing] = useState(false)
       <input type="text" placeholder='Profession' onChange={(e) => {
         setTeacherInfo({...teacherInfo, profession: e.target.value })
       }} />
-      <input type="number" placeholder='Age' onChange={(e) => {
-        setTeacherInfo({...teacherInfo, age: e.target.value })
+      <input type="number" placeholder='BirthYear' onChange={(e) => {
+        setTeacherInfo({...teacherInfo, birthYear: e.target.value })
       }} />
       <input type="text" placeholder='Country' onChange={(e) => {
         setTeacherInfo({...teacherInfo, country: e.target.value })
@@ -95,6 +96,14 @@ const [editing, setEditing] = useState(false)
       <input type="text" placeholder='Video Link' onChange={(e) => {
         setTeacherInfo({...teacherInfo, introVideo: e.target.value })
       }} />
+{/* <     label for="gender">Gender</label> */}
+      <select onChange={(e) => {
+        setTeacherInfo({...teacherInfo, gender: e.target.value })
+      }}
+      name="gender" id="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+     </select>
       <button className={styled.submitBtn} >Submit</button>
      </form>}
        </>

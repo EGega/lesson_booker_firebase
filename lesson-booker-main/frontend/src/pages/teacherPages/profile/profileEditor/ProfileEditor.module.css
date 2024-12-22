@@ -20,7 +20,7 @@
     z-index: 1000;
   }
 
-  .form input {
+  .form input, label, select {
     width: 25%;
     height: 5%;
     outline: none;
@@ -38,7 +38,8 @@
     cursor: pointer;
     color: #fff;
     font-size: 1.5rem;
-    background-color: black;
+    background-color: white;
+    color: #55463c;
   }
 
   .videoLink {
