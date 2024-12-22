@@ -3,7 +3,7 @@ import eneaPic from "../../../../assets/enea.jpg"
 import styled from './ProfileEditor.module.css'
 import Navbar from '../../../../components/navbar/Navbar'
 import { db, auth } from '../../../../firebase/firebase'
-import { updateDoc, doc, collection, getDocs, getDoc, query, where } from "firebase/firestore" 
+import { updateDoc, doc, onSnapshot } from "firebase/firestore" 
 const ProfileEditor = () => {
   const updateDocument = async (collectionName, docId, updatedData) => {
     try {
@@ -23,21 +23,51 @@ const [teacherInfo, setTeacherInfo] = useState({
   introVideo: ""
 })
 
- const getTeacher = async () => {
-  const teacherRef = collection(db,"teachers")
-  const snap = await getDoc(doc(db, "teachers", auth.currentUser.uid)) 
-  if (snap.exists()) {
-    setTeacherInfo(snap.data())
-    console.log(snap.data())
-    console.log(teacherInfo);
-  }
-  else {
-    console.log("No such document")
-  }
- }
+//  const getTeacher = async () => {
+//   const teacherRef = collection(db,"teachers")
+//   const snap = await getDoc(doc(db, "teachers", auth.currentUser.uid)) 
+//   if (snap.exists()) {
+//     setTeacherInfo(snap.data())
+//     console.log(snap.data())
+//     console.log(teacherInfo);
+//   }
+//   else {
+//     console.log("No such document")
+//   }
+//  }
+
+const getTeacher = () => {
+  const teacherDocRef = doc(db, "teachers", auth.currentUser.uid);
+  const unsubscribe = onSnapshot(teacherDocRef, (docSnap) => {
+    if (docSnap.exists()) {
+      setTeacherInfo(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  });
+
+  // Cleanup subscription when component unmounts
+  return unsubscribe;
+};
+
+
 useEffect(() => {
  getTeacher()
 }, [])
+
+const handleSubmit = async (e) => {
+  e.preventDefault(); 
+
+  const teacherDocRef = doc(db, "teachers", auth.currentUser.uid);
+
+  try {
+    await updateDoc(teacherDocRef, teacherInfo);
+    console.log("Document updated successfully!");
+    setEditing(false); 
+  } catch (error) {
+    console.error("Error updating document: ", error);
+  }
+};
 
 
 const [editing, setEditing] = useState(false)
@@ -55,14 +85,17 @@ const [editing, setEditing] = useState(false)
       setEditing(true)
      }} className={styled.editProfile}>Edit Profile</button>
      </div> : 
-     <form className={styled.form} action="">
+     <form className={styled.form} onSubmit={handleSubmit} action="">
       <Navbar />
       <button className={styled.closeBtn} onClick={() => {
       setEditing(false)
      }}>X</button>
       <input type="text" onChange={(e) => {
-        setTeacherInfo({...teacherInfo, name: e.target.value })
+        setTeacherInfo({...teacherInfo, firstName: e.target.value })
       }} placeholder='Your name' />
+      <input type="text" onChange={(e) => {
+        setTeacherInfo({...teacherInfo, lastName: e.target.value })
+      }} placeholder='Your surname' />
       <input type="text" placeholder='Profession' onChange={(e) => {
         setTeacherInfo({...teacherInfo, profession: e.target.value })
       }} />
@@ -75,9 +108,7 @@ const [editing, setEditing] = useState(false)
       <input type="text" placeholder='Video Link' onChange={(e) => {
         setTeacherInfo({...teacherInfo, introVideo: e.target.value })
       }} />
-      <button className={styled.submitBtn} onClick={() => {
-      setEditing(false)
-     }} >Submit</button>
+      <button className={styled.submitBtn} >Submit</button>
      </form>}
        </>
   )
