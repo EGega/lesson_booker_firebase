@@ -23,18 +23,6 @@ const [teacherInfo, setTeacherInfo] = useState({
   introVideo: ""
 })
 
-//  const getTeacher = async () => {
-//   const teacherRef = collection(db,"teachers")
-//   const snap = await getDoc(doc(db, "teachers", auth.currentUser.uid)) 
-//   if (snap.exists()) {
-//     setTeacherInfo(snap.data())
-//     console.log(snap.data())
-//     console.log(teacherInfo);
-//   }
-//   else {
-//     console.log("No such document")
-//   }
-//  }
 
 const getTeacher = () => {
   const teacherDocRef = doc(db, "teachers", auth.currentUser.uid);
@@ -46,7 +34,6 @@ const getTeacher = () => {
     }
   });
 
-  // Cleanup subscription when component unmounts
   return unsubscribe;
 };
 
@@ -92,8 +79,8 @@ const [editing, setEditing] = useState(false)
      }}>X</button>
       <input type="text" onChange={(e) => {
         setTeacherInfo({...teacherInfo, firstName: e.target.value })
-      }} placeholder='Your name' />
-      <input type="text" onChange={(e) => {
+      }} placeholder='Your name' value={teacherInfo.firstName}/>
+      <input type="text" value={teacherInfo.lastName} onChange={(e) => {
         setTeacherInfo({...teacherInfo, lastName: e.target.value })
       }} placeholder='Your surname' />
       <input type="text" placeholder='Profession' onChange={(e) => {

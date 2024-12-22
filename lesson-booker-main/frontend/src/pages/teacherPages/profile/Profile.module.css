@@ -45,7 +45,8 @@ background-color: antiquewhite;
 .middleSide, .rightSide, .leftSide {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
     padding:0  70px;
-    background-color: rgb(198, 222, 222);
+    color: white;
+    background-color: #3d322bd8;;
 }
 
 .tdLessons {
