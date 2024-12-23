@@ -24,23 +24,24 @@ const Teachers = () => {
         }, []);
   return (
   <>
+  /*
   <Navbar />
   <div className={styled.container}>
    {teacherList.map((teacher) => {
-    const {uid, firstName, lastName} = teacher
-    const gender = "Male"
+    const {userId, firstName, lastName, gender, birthYear} = teacher
+ 
     return (
-        <div className={styled.card} key={uid}>
+        <div className={styled.card} key={userId}>
         <img className={styled.img} src={gender === "Male" ? maleAvatar : femaleAvatar} />
         <div className={styled.name}>
-          <h2>{ gender === "Male" ? "Mr. " + firstName : "Ms. " + lastName}</h2>
+          <h2>{ gender === "Male" ? `Mr. ${firstName} ${lastName}` :  `Mrs. ${firstName} ${lastName}`}</h2>
         </div>
         <div className={styled.genAge}>
-          <h3>{new Date().getFullYear()}</h3>
+          <h3>{new Date().getFullYear() - birthYear}</h3>
           <h3>{gender}</h3>
         </div>
        
-         <Link to={`/teachers/${uid}`} className={styled.btn}>
+         <Link to={`/teachers/${userId}`} className={styled.btn}>
                 Details
         </Link>
        
