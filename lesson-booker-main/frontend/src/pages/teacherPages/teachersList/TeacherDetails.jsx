@@ -47,7 +47,9 @@ const TeacherDetails = () => {
     try {
       const docRef = doc(db, "teachers", userId);
       await updateDoc(docRef, {
-        comments: arrayUnion(comment), 
+        comments: arrayUnion(` ${comment} --- Comment done by student: ${auth.currentUser.displayName} 
+  with ID: ${auth.currentUser.uid} 
+  `), 
       });
       alert("Comment submitted successfully!");
       setComment(""); 
