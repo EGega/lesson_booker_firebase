@@ -6,15 +6,14 @@ import { SubmitButton } from '../../../components/styled/styledbuttons/buttons'
 import { useNavigate } from 'react-router-dom'
 import maleAvatar from "../../../assets/maleAvatar.jpg"
 import femaleAvatar from "../../../assets/femaleAvatar.png"
-import introVideo from "../../../assets/videos/introVideo.webm"
 import { AiOutlineClose } from "react-icons/ai";
-import { doc, getDoc } from 'firebase/firestore'
-import { db, auth } from '../../../firebase/firebase'
+import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { auth, db} from '../../../firebase/firebase'
 const TeacherDetails = () => {
   const {userId} = useParams()
   const navigate = useNavigate()
   const [teacher, setTeacher] = useState(null)
-  const [video, setVideo] = useState(false)
+  const [comment, setComment] = useState("")
 
   useEffect(() => {
     const fetchTeacherData = async () => {
@@ -35,8 +34,27 @@ const TeacherDetails = () => {
     fetchTeacherData();
     console.log(teacher);
     console.log(userId);
+    console.log(auth.currentUser.displayName);
     
-  }, []);
+  }, [userId]);
+  
+  const handleCommentSubmit = async () => {
+    if (comment.trim() === "") {
+      alert("Comment cannot be empty!");
+      return;
+    }
+
+    try {
+      const docRef = doc(db, "teachers", userId);
+      await updateDoc(docRef, {
+        comments: arrayUnion(comment), 
+      });
+      alert("Comment submitted successfully!");
+      setComment(""); 
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
   
   return (
     <>
@@ -48,7 +66,6 @@ const TeacherDetails = () => {
           <h3>{  teacher?.gender === "Male" ? `Mr. ${teacher?.firstName} ${teacher?.lastName}` :  `Mrs. ${teacher?.firstName} ${teacher?.lastName}`}</h3>
           <h3>{teacher?.gender}</h3>
           <h3>{new Date().getFullYear() - teacher?.birthYear} Years Old</h3>
-          {/* <h3><a href="https://www.youtube.com/watch?v=cWcId6ZoaWs&ab_channel=YanelisaBokveld" target='_blank' >Link</a></h3> */}
           <SubmitButton onClick={() => {
             navigate(-1)
           }} className={styled.goBackBtn}> &#x2190; Go Back </SubmitButton>
@@ -57,8 +74,8 @@ const TeacherDetails = () => {
          <h3>Completed Lessons: </h3>
          <div className={styled.inputDiv}>
           <label>Leave a comment</label>
-          <textarea className={styled.comment} type="text" id='comment'  > </textarea>
-          <SubmitButton >Submit</SubmitButton>
+          <textarea onChange={(e) => setComment(e.target.value)} value={comment}  className={styled.comment} type="text" id='comment' maxLength="1500"  > </textarea>
+          <SubmitButton onClick={handleCommentSubmit} >Submit</SubmitButton>
           <div className={styled.introVideo}>
           {
           <div className={styled.video}>
@@ -72,7 +89,6 @@ const TeacherDetails = () => {
               allowFullScreen
              ></iframe>
           </div> 
-
           }
           </div>
          </div>
