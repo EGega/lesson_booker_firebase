@@ -8,7 +8,7 @@ const Numerator = () => {
 const cart = useSelector(selectCart)
 const { selectedBooks} = cart
 const navigate = useNavigate()
-console.log(selectedBooks.length);
+// console.log(selectedBooks.length);
   return (
     <>
     {selectedBooks.length !== 0 ? <div className={styled.main}>

@@ -12,7 +12,7 @@ import { auth } from '../../firebase/firebase'
 const Navbar = () => {
 const {logged, role,} =  useSelector((state) => state.login)
 const {user} = useSelector((state) => state)
-console.log(role, logged, user);
+// console.log(role, logged, user);
   const [navbarModuleVisibility, setNavbarModuleVisibility] = useState(false)
   return (
     <> 

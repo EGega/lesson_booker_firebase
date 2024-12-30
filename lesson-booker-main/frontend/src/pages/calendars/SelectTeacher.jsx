@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import maleAvatar from "../../assets/maleAvatar.jpg"
 import femaleAvatar from "../../assets/femaleAvatar.png"
 import { db, auth } from '../../firebase/firebase'
-import { getDocs, collection } from 'firebase/firestore';   
+import { getDocs, collection, query, where } from 'firebase/firestore';   
 import { useEffect, useState } from 'react'
 import { SubmitButton } from '../../components/styled/styledbuttons/buttons'
-const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID}) => {
+const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID, setTeacherEvents}) => {
    const [teacherList, setTeacherList] = useState([]) 
   
    const teacherCollectionRef = collection(db, "teachers");
@@ -17,17 +17,17 @@ const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID}) => {
        const data = await getDocs(teacherCollectionRef)
        const filteredData = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
        setTeacherList(filteredData)
-       console.log(filteredData);
      }
-        useEffect(() => {
-          getTeacherList()
-        }, []);
-
 
     const handleTeacherSelect = (teacherID) => {
         setTeacherSelected(true)
         setSelectedTeacherID(teacherID)
+        console.log(teacherID);
+        
     }    
+      useEffect(() => {
+        getTeacherList()
+      }, []);
   return (
   <>
   

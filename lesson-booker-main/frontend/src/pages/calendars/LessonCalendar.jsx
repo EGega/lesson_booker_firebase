@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -8,7 +8,7 @@ import { SubmitButton, ExitButton } from "../../components/styled/styledbuttons/
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
-import { collection, getDocs, where } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
 const localizer = momentLocalizer(moment);
 
@@ -19,19 +19,31 @@ const LessonCalendar = () => {
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
 
-// Select a teacher
   const [module, setModule] = useState(false);
   const [teacherSelected, setTeacherSelected] = useState(false)
   const [selectedTeacherID, setSelectedTeacherID] = useState("")
- 
+  const [teacherEvents, setTeacherEvents] = useState([])
   const [events, setEvents] = useState([]);
   const [stName, setStName] = useState("");
   const [timeSlotInfo, setTimeSlotInfo] = useState();
-  const [lessons] = useState([
-    "Maths", "English", "German", "Programming", "Robotics", "Drama",
-  ]);
-  const [lessonSelected, setLessonSelected] = useState(lessons[0]);
+
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
+
+
+const fetchEventsforSelectedTeacher = async () => {
+      const eventsCollectionRef = collection(db, "events");
+      const q = query(eventsCollectionRef, where("teacherID", "==", selectedTeacherID)); 
+      const data = await getDocs(q);
+      const events = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setTeacherEvents(events); 
+      console.log("Fetched events for teacher:", events);
+}
+
+    useEffect(() => {
+        if (selectedTeacherID) {
+          fetchEventsforSelectedTeacher(selectedTeacherID);  // Fetch events based on the selected teacher's ID
+        }
+      }, [selectedTeacherID]);
 
   const handleSelectSlot = (slotInfo) => {
     setModule(true);
@@ -46,17 +58,15 @@ const eventCollectionRef = collection(db, "events")
     setModule(false);
 
     const newEvent = {
-      title: `${auth.currentUser.displayName} - ${lessonSelected}`,
+      title: `${auth.currentUser.displayName}`,
       start: timeSlotInfo.start,
       end: timeSlotInfo.end,
-      lesson: lessonSelected,
       studentName: stName,
     };
 
-    setEvents([...events, newEvent]);
-    console.log(selectedTeacherID);
-    
-    
+    setEvents([...events, newEvent]);  
+    fetchEventsforSelectedTeacher()
+      
   };
 
   const editHandler = (eventId) => {
@@ -66,7 +76,6 @@ const eventCollectionRef = collection(db, "events")
 
     // Populate the input fields with the selected event's information
     setStName(selectedEvent.studentName);
-    setLessonSelected(selectedEvent.lesson);
   };
 
   const updateHandler = () => {
@@ -77,8 +86,7 @@ const eventCollectionRef = collection(db, "events")
         // Update the selected event with new information
         return {
           ...event,
-          title: `${stName} - ${lessonSelected}`,
-          lesson: lessonSelected,
+          title: `${stName}`,
           studentName: stName,
         };
       }
@@ -117,19 +125,6 @@ const eventCollectionRef = collection(db, "events")
             placeholder="Enter Your Name"
           />
 
-          <select
-            name=""
-            id={styled.lessons}
-            value={lessonSelected}
-            onChange={(e) => setLessonSelected(e.target.value)}
-          >
-            {lessons.map((lesson, index) => (
-              <option key={index} value={lesson}>
-                {lesson}
-              </option>
-            ))}
-          </select>
-
           <SubmitButton onClick={selectedEventIndex !== null ? updateHandler : submitHandler}>Submit</SubmitButton>
           <ExitButton onClick={exitHandler}>X</ExitButton>
         </div>
@@ -157,7 +152,7 @@ const eventCollectionRef = collection(db, "events")
           }}
         /> 
         : 
-        <SelectTeacher   setTeacherSelected={setTeacherSelected} setSelectedTeacherID={setSelectedTeacherID} /> 
+        <SelectTeacher   setTeacherSelected={setTeacherSelected}  setSelectedTeacherID={setSelectedTeacherID} setTeacherEvents={setTeacherEvents} /> 
         }
       </div>
     </>
