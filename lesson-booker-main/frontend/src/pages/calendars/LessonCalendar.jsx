@@ -8,7 +8,7 @@ import { SubmitButton, ExitButton } from "../../components/styled/styledbuttons/
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, where, query, addDoc } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
 const localizer = momentLocalizer(moment);
 
@@ -41,7 +41,7 @@ const fetchEventsforSelectedTeacher = async () => {
 
     useEffect(() => {
         if (selectedTeacherID) {
-          fetchEventsforSelectedTeacher(selectedTeacherID);  // Fetch events based on the selected teacher's ID
+          fetchEventsforSelectedTeacher(selectedTeacherID);  
         }
       }, [selectedTeacherID]);
 
@@ -54,27 +54,33 @@ const fetchEventsforSelectedTeacher = async () => {
     setModule(false);
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     setModule(false);
-
+  
     const newEvent = {
       title: `${auth.currentUser.displayName}`,
       start: timeSlotInfo.start,
       end: timeSlotInfo.end,
-      studentName: stName,
+      studentName: auth.currentUser.displayName,
+      studentID: auth.currentUser.uid,
+      teacherID: selectedTeacherID,
     };
-
-    setEvents([...events, newEvent]);  
-    fetchEventsforSelectedTeacher()
-      
+  
+    try {
+      // Add the new event to Firestore
+      await addDoc(eventCollectionRef, newEvent);
+  
+      // Update the state to reflect the new event locally
+      setEvents([...events, newEvent]);
+    } catch (error) {
+      console.error("Error adding event:", error);
+    }
   };
 
   const editHandler = (eventId) => {
     setModule(true);
     setSelectedEventIndex(eventId);
     const selectedEvent = events.find((event, index) => index === eventId);
-
-    // Populate the input fields with the selected event's information
     setStName(selectedEvent.studentName);
   };
 
