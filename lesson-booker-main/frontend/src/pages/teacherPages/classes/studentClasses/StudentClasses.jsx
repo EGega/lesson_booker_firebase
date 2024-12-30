@@ -19,7 +19,7 @@ const StudentClasses = () => {
       <div className={styled.container}>
         <div className={styled.goToLessons}>
           <img src={goToLesson} alt="Enter Your Lesson" />  
-          <ClickButton >Enter Your Lesson <BsFillMouse2Fill /> </ClickButton>
+          <ClickButton >My Lessons <BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.bookAlesson}>
           <img src={bookNow} alt="Book Now" />  

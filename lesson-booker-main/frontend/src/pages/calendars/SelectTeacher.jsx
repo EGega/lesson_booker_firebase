@@ -1,14 +1,14 @@
 import React from 'react'
-import Navbar from '../../../components/navbar/Navbar'
-import styled from './Teachers.module.css'
-// import {teachers} from '../../../data/teachersList'
+import Navbar from '../../components/navbar/Navbar'
+import styled from '../teacherPages/teachersList/Teachers.module.css'
 import { Link } from 'react-router-dom'
-import maleAvatar from "../../../assets/maleAvatar.jpg"
-import femaleAvatar from "../../../assets/femaleAvatar.png"
-import { db, auth } from '../../../firebase/firebase'
-import { getDocs, collection } from 'firebase/firestore';
+import maleAvatar from "../../assets/maleAvatar.jpg"
+import femaleAvatar from "../../assets/femaleAvatar.png"
+import { db, auth } from '../../firebase/firebase'
+import { getDocs, collection } from 'firebase/firestore';   
 import { useEffect, useState } from 'react'
-const Teachers = () => {
+import { SubmitButton } from '../../components/styled/styledbuttons/buttons'
+const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID}) => {
    const [teacherList, setTeacherList] = useState([]) 
   
    const teacherCollectionRef = collection(db, "teachers");
@@ -22,9 +22,15 @@ const Teachers = () => {
         useEffect(() => {
           getTeacherList()
         }, []);
+
+
+    const handleTeacherSelect = (teacherID) => {
+        setTeacherSelected(true)
+        setSelectedTeacherID(teacherID)
+    }    
   return (
   <>
-  /*
+  
   <Navbar />
   <div className={styled.container}>
    {teacherList.map((teacher) => {
@@ -40,10 +46,7 @@ const Teachers = () => {
           <h3>{new Date().getFullYear() - birthYear}</h3>
           <h3>{gender}</h3>
         </div>
-       
-         <Link to={`/teachers/${userId}`} className={styled.btn}>
-                Details
-        </Link>
+        <SubmitButton style={{ width: '80%', marginBottom: "10px" }} onClick={ () => handleTeacherSelect(userId)} >Book a Lesson</SubmitButton>
        
       </div>
     )
@@ -53,4 +56,4 @@ const Teachers = () => {
   )
 }
 
-export default Teachers
+export default SelectTeachers

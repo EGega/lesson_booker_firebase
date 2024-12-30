@@ -68,6 +68,11 @@ const TeacherDetails = () => {
           <h3>{  teacher?.gender === "Male" ? `Mr. ${teacher?.firstName} ${teacher?.lastName}` :  `Mrs. ${teacher?.firstName} ${teacher?.lastName}`}</h3>
           <h3>{teacher?.gender}</h3>
           <h3>{new Date().getFullYear() - teacher?.birthYear} Years Old</h3>
+          <div>
+          <SubmitButton>
+            Book a Lesson
+          </SubmitButton>
+          </div>
           <SubmitButton onClick={() => {
             navigate(-1)
           }} className={styled.goBackBtn}> &#x2190; Go Back </SubmitButton>

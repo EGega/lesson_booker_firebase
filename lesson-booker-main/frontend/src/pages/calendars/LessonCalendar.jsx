@@ -7,10 +7,23 @@ import styled from "./LessonCalendar.module.css";
 import { SubmitButton, ExitButton } from "../../components/styled/styledbuttons/buttons.js";
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
+import { auth, db } from "../../firebase/firebase.js";
+import { collection, getDocs, where } from "firebase/firestore";
+import SelectTeacher from "./SelectTeacher.jsx"
 const localizer = momentLocalizer(moment);
 
 const LessonCalendar = () => {
+
+  // Collection References
+
+const teacherCollectionRef = collection(db, "teachers")
+const eventCollectionRef = collection(db, "events")
+
+// Select a teacher
   const [module, setModule] = useState(false);
+  const [teacherSelected, setTeacherSelected] = useState(false)
+  const [selectedTeacherID, setSelectedTeacherID] = useState("")
+ 
   const [events, setEvents] = useState([]);
   const [stName, setStName] = useState("");
   const [timeSlotInfo, setTimeSlotInfo] = useState();
@@ -33,7 +46,7 @@ const LessonCalendar = () => {
     setModule(false);
 
     const newEvent = {
-      title: `${stName} - ${lessonSelected}`,
+      title: `${auth.currentUser.displayName} - ${lessonSelected}`,
       start: timeSlotInfo.start,
       end: timeSlotInfo.end,
       lesson: lessonSelected,
@@ -41,12 +54,11 @@ const LessonCalendar = () => {
     };
 
     setEvents([...events, newEvent]);
+    console.log(selectedTeacherID);
+    
+    
   };
 
-  // const editHandler = (eventId) => {
-  //   setModule(true)
-  //   const selectedEvent = events.filter((event, index) => index === eventId);
-  // }
   const editHandler = (eventId) => {
     setModule(true);
     setSelectedEventIndex(eventId);
@@ -94,7 +106,7 @@ const LessonCalendar = () => {
   )};
 
   return (
-    <>
+    <> 
     <Navbar />
       {module && (
         <div className={styled.module}>
@@ -124,6 +136,7 @@ const LessonCalendar = () => {
       )}
 
       <div className={styled.app}>
+        { teacherSelected ?
         <Calendar
           localizer={localizer}
           defaultDate={new Date()}
@@ -142,7 +155,10 @@ const LessonCalendar = () => {
           components={{
             event: CustomEvent,
           }}
-        />
+        /> 
+        : 
+        <SelectTeacher   setTeacherSelected={setTeacherSelected} setSelectedTeacherID={setSelectedTeacherID} /> 
+        }
       </div>
     </>
   );
