@@ -10,6 +10,10 @@ import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
 import { collection, getDocs, where, query, addDoc } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
+import { fetchTeacherName } from "./functions.js";
+
+
+
 const localizer = momentLocalizer(moment);
 
 const LessonCalendar = () => {
@@ -21,6 +25,7 @@ const eventCollectionRef = collection(db, "events")
 
   const [module, setModule] = useState(false);
   const [teacherSelected, setTeacherSelected] = useState(false)
+  const [teacherName, setTeacherName] = useState("");
   const [selectedTeacherID, setSelectedTeacherID] = useState("")
   const [teacherEvents, setTeacherEvents] = useState([])
   const [events, setEvents] = useState([]);
@@ -39,11 +44,24 @@ const fetchEventsforSelectedTeacher = async () => {
       console.log("Fetched events for teacher:", events);
 }
 
-    useEffect(() => {
-        if (selectedTeacherID) {
-          fetchEventsforSelectedTeacher(selectedTeacherID);  
-        }
-      }, [selectedTeacherID]);
+useEffect(() => {
+  const fetchData = async () => {
+    if (selectedTeacherID) {
+      try {
+        // teacher's name
+        const name = await fetchTeacherName(selectedTeacherID);
+        setTeacherName(name);
+
+        // teacher's events
+        await fetchEventsforSelectedTeacher(selectedTeacherID); 
+      } catch (error) {
+        console.error("Error fetching teacher data or events:", error);
+      }
+    }
+  };
+
+  fetchData();
+}, [selectedTeacherID]);
 
   const handleSelectSlot = (slotInfo) => {
     setModule(true);
@@ -58,19 +76,17 @@ const fetchEventsforSelectedTeacher = async () => {
     setModule(false);
   
     const newEvent = {
-      title: `${auth.currentUser.displayName}`,
+      title: `${auth?.currentUser.displayName} - ${teacherName} `,
       start: timeSlotInfo.start,
       end: timeSlotInfo.end,
       studentName: auth.currentUser.displayName,
       studentID: auth.currentUser.uid,
       teacherID: selectedTeacherID,
+      teacherName,
     };
   
     try {
-      // Add the new event to Firestore
       await addDoc(eventCollectionRef, newEvent);
-  
-      // Update the state to reflect the new event locally
       setEvents([...events, newEvent]);
     } catch (error) {
       console.error("Error adding event:", error);
