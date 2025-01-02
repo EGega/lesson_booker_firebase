@@ -32,9 +32,6 @@ const TeacherDetails = () => {
     };
 
     fetchTeacherData();
-    console.log(teacher);
-    console.log(userId);
-    console.log(auth.currentUser.displayName);
     
   }, [userId]);
   
@@ -69,7 +66,11 @@ const TeacherDetails = () => {
           <h3>{teacher?.gender}</h3>
           <h3>{new Date().getFullYear() - teacher?.birthYear} Years Old</h3>
           <div>
-          <SubmitButton>
+          <SubmitButton   onClick={() =>
+    navigate("/calendar", {
+      state: { teacherID: userId }, // Pass teacherID as state
+    })
+  }>
             Book a Lesson
           </SubmitButton>
           </div>
