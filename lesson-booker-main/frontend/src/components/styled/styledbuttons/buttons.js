@@ -13,6 +13,19 @@ background-color: green;
 font-size: 1.2rem;
 
 `
+export const CancelButton = styled.button `
+width: 40%;
+font-size: 1rem;
+padding: 10px;
+color: #fff;
+border: none;
+outline: none;
+border-radius: 10px;
+cursor: pointer;
+background-color: red;
+font-size: 1.2rem;
+
+`
 export const ExitButton = styled.button `
 position: absolute;
 top: 10%;

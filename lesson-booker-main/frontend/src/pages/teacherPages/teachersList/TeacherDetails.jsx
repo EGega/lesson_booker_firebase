@@ -9,12 +9,13 @@ import femaleAvatar from "../../../assets/femaleAvatar.png"
 import { AiOutlineClose } from "react-icons/ai";
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { auth, db} from '../../../firebase/firebase'
+import { useTeacher } from '../../../context/TeacherProvider'
 const TeacherDetails = () => {
   const {userId} = useParams()
   const navigate = useNavigate()
   const [teacher, setTeacher] = useState(null)
   const [comment, setComment] = useState("")
-
+  const { setTeacherID } = useTeacher();
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
@@ -66,11 +67,10 @@ const TeacherDetails = () => {
           <h3>{teacher?.gender}</h3>
           <h3>{new Date().getFullYear() - teacher?.birthYear} Years Old</h3>
           <div>
-          <SubmitButton   onClick={() =>
-    navigate("/calendar", {
-      state: { teacherID: userId }, // Pass teacherID as state
-    })
-  }>
+          <SubmitButton   onClick={() => {
+        setTeacherID(userId); // Set the teacherID globally by using context
+        navigate("/calendar");
+      }}>
             Book a Lesson
           </SubmitButton>
           </div>

@@ -6,7 +6,8 @@ import '../../../../calendars/LessonCalendar.css';
 import styled from "../../../../calendars/LessonCalendar.module.css";
 import Navbar from "../../../../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../../../../firebase/firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {FaTrash, FaEdit} from "react-icons/fa"
+import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 
 const localizer = momentLocalizer(moment);
 
@@ -41,10 +42,20 @@ const MyLessons = () => {
   
     fetchStudentEvents(); 
   }, []);
+  const removeEvent = async (eventId) => {
+      try {
+        const eventRef = doc(db, "events", eventId);
+        await deleteDoc(eventRef);
+        setEvents(events.filter((event) => event.id !== eventId)); 
+      } catch (error) {
+        console.error("Error deleting event:", error);
+      }
+    };
 
   const CustomEvent = ({ event }) => (
     <div>
       <strong>{event.title}</strong>
+      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id)} />
     </div>
   );
 

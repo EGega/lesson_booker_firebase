@@ -4,14 +4,14 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './LessonCalendar.css'
 import styled from "./LessonCalendar.module.css";
-import { SubmitButton, ExitButton } from "../../components/styled/styledbuttons/buttons.js";
+import { SubmitButton, ExitButton, CancelButton } from "../../components/styled/styledbuttons/buttons.js";
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
 import { collection, getDocs, where, query, addDoc, doc, deleteDoc } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
 import { fetchTeacherName } from "./functions.js";
-
+import { useTeacher } from "../../context/TeacherProvider.jsx";
 
 
 const localizer = momentLocalizer(moment);
@@ -22,6 +22,7 @@ const LessonCalendar = () => {
 
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
+const { teacherID } = useTeacher();
 
   const [module, setModule] = useState(false);
   const [teacherSelected, setTeacherSelected] = useState(false)
@@ -33,7 +34,7 @@ const eventCollectionRef = collection(db, "events")
   const [timeSlotInfo, setTimeSlotInfo] = useState();
 
   const [selectedEventIndex, setSelectedEventIndex] = useState(null);
-
+  
  const fetchEventsforSelectedTeacher = async () => {
     try {
       const q = query(collection(db, "events"), where("teacherID", "==", selectedTeacherID));
@@ -54,7 +55,13 @@ const eventCollectionRef = collection(db, "events")
     }
   };
 
-
+  useEffect(() => {
+    if (teacherID) {
+      setSelectedTeacherID(teacherID);
+      console.log(teacherID);
+      
+    }
+  }, [teacherID]);
 
   
 useEffect(() => {
@@ -148,29 +155,26 @@ useEffect(() => {
     <div>
       <strong>{event.title}</strong>
       <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id)} />
-      <FaEdit className={styled.editIcon} onClick={() => editHandler(event.id)} /> 
     </div>
   )};
+  console.log(events);
+  
 
   return (
     <> 
     <Navbar />
       {module && (
         <div className={styled.module}>
-          <input
-            type="text"
-            className={styled.nameInput}
-            onChange={(e) => setStName(e.target.value)}
-            placeholder="Enter Your Name"
-          />
-
-          <SubmitButton onClick={selectedEventIndex !== null ? updateHandler : submitHandler}>Submit</SubmitButton>
+          <SubmitButton onClick={selectedEventIndex !== null ? updateHandler : submitHandler}>Book This Lesson</SubmitButton>
+          <CancelButton onClick={exitHandler}>Cancel</CancelButton>
           <ExitButton onClick={exitHandler}>X</ExitButton>
         </div>
       )}
 
       <div className={styled.app}>
-        { teacherSelected ?
+        { teacherSelected || teacherID ?
+        // Added or since it wouldn't display the calendar
+ 
         <Calendar
           localizer={localizer}
           defaultDate={new Date()}
@@ -191,6 +195,7 @@ useEffect(() => {
             event: CustomEvent,
           }}
         /> 
+        
         : 
         <SelectTeacher   setTeacherSelected={setTeacherSelected}  setSelectedTeacherID={setSelectedTeacherID} setTeacherEvents={setTeacherEvents} /> 
         }
