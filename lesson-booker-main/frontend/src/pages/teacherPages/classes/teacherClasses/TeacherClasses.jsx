@@ -41,7 +41,7 @@ const TeacherClasses = () => {
   
     fetchStudentEvents(); 
   }, []);
-  const removeEvent = async (eventId,  eventStartTime) => {
+  const removeEvent = async (eventId, eventStartTime) => {
     const currentTime = new Date();
     const timeDifference = new Date(eventStartTime) - currentTime;
   

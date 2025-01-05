@@ -42,7 +42,14 @@ const MyLessons = () => {
   
     fetchStudentEvents(); 
   }, []);
-  const removeEvent = async (eventId) => {
+  const removeEvent = async (eventId,  eventStartTime) => {
+    const currentTime = new Date();
+    const timeDifference = new Date(eventStartTime) - currentTime;
+  
+    if (timeDifference <= 2 * 60 * 60 * 1000) {
+      alert("You cannot delete an event less than 2 hours before its start time.");
+      return;
+    }
       try {
         const eventRef = doc(db, "events", eventId);
         await deleteDoc(eventRef);
@@ -55,7 +62,7 @@ const MyLessons = () => {
   const CustomEvent = ({ event }) => (
     <div>
       <strong>{event.title}</strong>
-      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id)} />
+      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id, event.start)} />
     </div>
   );
 

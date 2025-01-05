@@ -8,7 +8,7 @@ import { SubmitButton, ExitButton, CancelButton } from "../../components/styled/
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
-import { collection, getDocs, where, query, addDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, where, query, addDoc, doc, deleteDoc, docre } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
 import { fetchTeacherName } from "./functions.js";
 import { useTeacher } from "../../context/TeacherProvider.jsx";
@@ -17,6 +17,8 @@ import { useTeacher } from "../../context/TeacherProvider.jsx";
 const localizer = momentLocalizer(moment);
 
 const LessonCalendar = () => {
+
+  // Collection References
 
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
@@ -104,14 +106,23 @@ useEffect(() => {
     };
   
     try {
-      await addDoc(eventCollectionRef, newEvent);
-      setEvents([...events, newEvent]);
+      const docRef = await addDoc(eventCollectionRef, newEvent);
+      const createdEvent = { ...newEvent, id: docRef.id };
+      setEvents([...events, createdEvent]);
     } catch (error) {
       console.error("Error adding event:", error);
     }
   };
 
-  const removeEvent = async (eventId) => {
+
+  const removeEvent = async (eventId, eventStartTime) => {
+    const currentTime = new Date();
+    const timeDifference = new Date(eventStartTime) - currentTime;
+  
+    if (timeDifference <= 2 * 60 * 60 * 1000) {
+      alert("You cannot delete an event less than 2 hours before its start time.");
+      return;
+    }
     try {
       const eventRef = doc(db, "events", eventId);
       await deleteDoc(eventRef);
@@ -125,7 +136,7 @@ useEffect(() => {
     return ( 
     <div>
       <strong>{event.title}</strong>
-      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id)} />
+      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id, event.start)} />
     </div>
   )};
   console.log(events);
@@ -136,7 +147,7 @@ useEffect(() => {
     <Navbar />
       {module && (
         <div className={styled.module}>
-          <SubmitButton onClick={() => submitHandler}>Book This Lesson</SubmitButton>
+          <SubmitButton onClick={submitHandler}>Book This Lesson</SubmitButton>
           <CancelButton onClick={exitHandler}>Cancel</CancelButton>
           <ExitButton onClick={exitHandler}>X</ExitButton>
         </div>
