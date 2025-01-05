@@ -18,8 +18,6 @@ const localizer = momentLocalizer(moment);
 
 const LessonCalendar = () => {
 
-  // Collection References
-
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
 const { teacherID } = useTeacher();
@@ -113,33 +111,6 @@ useEffect(() => {
     }
   };
 
-  const editHandler = (eventId) => {
-    setModule(true);
-    setSelectedEventIndex(eventId);
-    const selectedEvent = events.find((event, index) => index === eventId);
-    setStName(selectedEvent.studentName);
-  };
-
-  const updateHandler = () => {
-    setModule(false);
-
-    const updatedEvents = events.map((event, index) => {
-      if (index === selectedEventIndex) {
-        // Update the selected event with new information
-        return {
-          ...event,
-          title: `${stName}`,
-          studentName: stName,
-        };
-      }
-      return event;
-    });
-
-    setEvents(updatedEvents);
-    // Reset selectedEventIndex after updating the event
-    setSelectedEventIndex(null);
-  };
-
   const removeEvent = async (eventId) => {
     try {
       const eventRef = doc(db, "events", eventId);
@@ -165,7 +136,7 @@ useEffect(() => {
     <Navbar />
       {module && (
         <div className={styled.module}>
-          <SubmitButton onClick={selectedEventIndex !== null ? updateHandler : submitHandler}>Book This Lesson</SubmitButton>
+          <SubmitButton onClick={() => submitHandler}>Book This Lesson</SubmitButton>
           <CancelButton onClick={exitHandler}>Cancel</CancelButton>
           <ExitButton onClick={exitHandler}>X</ExitButton>
         </div>

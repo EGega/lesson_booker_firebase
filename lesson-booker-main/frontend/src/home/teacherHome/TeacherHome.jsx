@@ -21,7 +21,7 @@ const Teacherhome = () => {
         <div>
         <img src={classes} alt="classes" />
         <button onClick={() => navigate('/classes')} >Classes</button>
-        </div>
+        </div> 
         <div>
         <img src={books} alt="books" />
         <button onClick={() => navigate("/books")}>Books</button>
