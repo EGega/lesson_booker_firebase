@@ -17,7 +17,9 @@ import { useTeacher } from "../../context/TeacherProvider.jsx";
 const localizer = momentLocalizer(moment);
 
 const LessonCalendar = () => {
-
+  // To show only the days from today and on
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
   // Collection References
 
 const teacherCollectionRef = collection(db, "teachers")
@@ -33,8 +35,8 @@ const { teacherID } = useTeacher();
   const [stName, setStName] = useState("");
   const [timeSlotInfo, setTimeSlotInfo] = useState();
 
-  const [selectedEventIndex, setSelectedEventIndex] = useState(null);
-  
+  // const [selectedEventIndex, setSelectedEventIndex] = useState(null);
+ 
  const fetchEventsforSelectedTeacher = async () => {
     try {
       const q = query(collection(db, "events"), where("teacherID", "==", selectedTeacherID));
@@ -83,7 +85,30 @@ useEffect(() => {
   fetchData();
 }, [selectedTeacherID]);
 
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Start of today
+
+const [currentDate, setCurrentDate] = useState(today); 
+
+const handleNavigate = (newDate, view) => {
+  if (newDate >= today) {
+    setCurrentDate(newDate);
+  }
+};
+
+// Filter out days before today in the week view
+const filterDays = (date) => {
+  const startOfWeek = moment(date).startOf("week").toDate(); // Start of the week
+  if (startOfWeek < today) {
+    return today; // Force the start date to today
+  }
+  return startOfWeek;
+};
   const handleSelectSlot = (slotInfo) => {
+    if (slotInfo.start < new Date()) {
+      alert("You cannot select a time in the past.");
+      return;
+    }
     setModule(true);
     setTimeSlotInfo(slotInfo);
   };
@@ -161,13 +186,15 @@ useEffect(() => {
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="week"
-          // events={events.map((event, index) => ({ ...event, id: index }))}
           events={events}
           selectable={true}
           onSelectSlot={handleSelectSlot}
           onSelecting={(slot) => false}
           step={30}
           timeslots={1}
+          min={todayStart}
+          onNavigate={handleNavigate}
+          date={currentDate}
           style={{ height: "100vh" }}
           formats={{
             timeGutterFormat: (date, culture, localizer) =>
