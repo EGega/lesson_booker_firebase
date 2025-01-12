@@ -22,6 +22,12 @@ const LessonCalendar = () => {
   todayStart.setHours(0, 0, 0, 0);
   // Collection References
 
+const [calendarKey, setCalendarKey] = useState(0);
+
+const refreshCalendar = () => {
+  setCalendarKey((prevKey) => prevKey + 1); 
+  // Force refresshing a calendar. 
+}
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
 const { teacherID } = useTeacher();
@@ -43,11 +49,15 @@ const { teacherID } = useTeacher();
       const data = await getDocs(q);
       const fetchedEvents = data.docs.map((doc) => {
         const eventData = doc.data();
+        const isCurrentStudent = eventData.studentID === auth.currentUser.uid;
         return {
           id: doc.id,
-          title: eventData.title || "No Title",
+          title: isCurrentStudent
+          ? `${eventData.studentName} - ${eventData.teacherName}`
+          : "This slot is booked",
           start: eventData.start?.toDate(),
           end: eventData.end?.toDate(),
+          isCurrentStudent
         };
       });
       setTeacherEvents(fetchedEvents);
@@ -121,7 +131,7 @@ const filterDays = (date) => {
     setModule(false);
   
     const newEvent = {
-      title: `${auth?.currentUser.displayName} - ${teacherName} `,
+      title: ` ${auth?.currentUser.displayName} - ${teacherName} `,
       start: timeSlotInfo.start,
       end: timeSlotInfo.end,
       studentName: auth.currentUser.displayName,
@@ -132,8 +142,9 @@ const filterDays = (date) => {
   
     try {
       const docRef = await addDoc(eventCollectionRef, newEvent);
-      const createdEvent = { ...newEvent, id: docRef.id };
-      setEvents([...events, createdEvent]);
+      const createdEvent = { ...newEvent, id: docRef.id,  isCurrentStudent: true };
+      setEvents((prevEvents) => [...prevEvents, createdEvent]);
+      refreshCalendar();
     } catch (error) {
       console.error("Error adding event:", error);
     }
@@ -161,7 +172,12 @@ const filterDays = (date) => {
     return ( 
     <div>
       <strong>{event.title}</strong>
-      <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id, event.start)} />
+      {event.isCurrentStudent && (
+        <FaTrash
+          className={styled.trashBin}
+          onClick={() => removeEvent(event.id, event.start)}
+        />
+      )}
     </div>
   )};
   console.log(events);
@@ -183,6 +199,7 @@ const filterDays = (date) => {
         // Added or since it wouldn't display the calendar
  
         <Calendar
+          key={calendarKey}
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="week"
