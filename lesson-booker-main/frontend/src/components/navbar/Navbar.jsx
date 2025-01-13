@@ -16,16 +16,16 @@ const {user} = useSelector((state) => state)
   const [navbarModuleVisibility, setNavbarModuleVisibility] = useState(false)
   return (
     <> 
+    {role === "student" ? 
     <NavbarStyle>
      <div className={styles.linkDiv}>
       <li><Link to="/profile">Profile</Link></li>
-      {role === "teacher" ? <li><Link to="/teacher-classes">Bookings</Link></li> : <li><Link to="/student-classes"> My Lessons</Link></li>}
-      
+      <li><Link to="/student-classes"> My Lessons</Link></li>
       <li><Link to="/calendar">Calendar</Link></li>
      </div>
      <div className={styles.imgDiv}>
       <LoginBtn><Link to="/">Home</Link></LoginBtn>
-      <Link to="/profile"> {role === "student" ? `${auth.currentUser.displayName}` :  `Teacher ${auth.currentUser.displayName}` }</Link>
+      <Link to="/profile"> {auth.currentUser.displayName}</Link>
       <div className={styles.imageDiv}>
        <img className={styles.avatarImage} onClick={() => {
          setNavbarModuleVisibility((prevValue) => !prevValue)
@@ -38,7 +38,33 @@ const {user} = useSelector((state) => state)
 
       {navbarModuleVisibility && <NavbarModule img={auth.currentUser.photoURL ?? maleAvatar} className={styles.navbarModule} />}
 
-    </NavbarStyle>
+    </NavbarStyle> 
+    :
+    <NavbarStyle>
+    <div className={styles.linkDiv}>
+     <li><Link to="/profile">Profile</Link></li>
+     <li><Link to="/classes">Bookings</Link></li>
+     <li><Link to="/slots">Slots</Link></li>
+    </div>
+    <div className={styles.imgDiv}>
+     <LoginBtn><Link to="/">Home</Link></LoginBtn>
+     <Link to="/profile"> { `Teacher ${auth.currentUser.displayName}`}</Link>
+     <div className={styles.imageDiv}>
+      <img className={styles.avatarImage} onClick={() => {
+        setNavbarModuleVisibility((prevValue) => !prevValue)
+      }} src={auth.currentUser.photoURL ?? maleAvatar} alt={auth.currentUser.displayName}/>
+      <Numerator/>
+     </div> 
+    </div>
+     {/* The code below is just another way to create an "effective toggler that I just came up with"  */}
+     {/* { navbarModule % 2 === 0 ? <NavbarModule className={styles.navbarModule} /> : null} */}
+
+     {navbarModuleVisibility && <NavbarModule img={auth.currentUser.photoURL ?? maleAvatar} className={styles.navbarModule} />}
+
+   </NavbarStyle>
+    
+  }
+
     </>
 
   )

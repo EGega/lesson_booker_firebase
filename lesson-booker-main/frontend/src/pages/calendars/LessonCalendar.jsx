@@ -180,7 +180,7 @@ const filterDays = (date) => {
       )}
     </div>
   )};
-  console.log(events);
+  // console.log(events);
   
 
   return (

@@ -11,6 +11,7 @@ import Profile from "../pages/teacherPages/profile/Profile";
 import LessonInfo from "../pages/teacherPages/lessonInfo/LessonInfo";
 import Feedback from "../pages/feedback/Feedback";
 import Administration from '../pages/teacherPages/adminstration/Administration';
+import TeacherSlots from '../pages/teacherPages/classes/teacherClasses/TeacherSlots'
 
 const TeacherRouter = () => {
   return (
@@ -27,6 +28,7 @@ const TeacherRouter = () => {
         <Route path='/lessoninfo' element={<LessonInfo />} />
         <Route path='/feedback' element={<Feedback />} />
         <Route path='/administration' element={<Administration />} />
+        <Route path='slots' element={<TeacherSlots />}/>
    </Routes>
  </>
     )
