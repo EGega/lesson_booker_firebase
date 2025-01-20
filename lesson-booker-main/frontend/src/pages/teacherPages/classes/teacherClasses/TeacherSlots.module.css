@@ -28,9 +28,12 @@
    
    .trashBin {
        position: absolute;
-       right: 5px;
+       right: 8px;
        top: 5px;
        color: rgb(255, 71, 71);
+   }
+   .trashBin:hover {
+    transform: scale(1.1)
    }
    
    .editIcon {

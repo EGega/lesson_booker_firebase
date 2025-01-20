@@ -7,6 +7,7 @@ import moment from "moment";
 import style from "./TeacherSlots.module.css"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { SubmitButton, CancelButton, ExitButton } from "../../../../components/styled/styledbuttons/buttons";
+import { FaTrash } from "react-icons/fa";
 
 const localizer = momentLocalizer(moment);
 
@@ -81,6 +82,16 @@ const TeacherSlots = () => {
   const exitHandler = () => {
     setModule(false);
   };
+    const CustomSlot = ({ event }) => { 
+      return ( 
+      <div>
+        <strong>{event.title}</strong>
+          <FaTrash
+            className={style.trashBin}
+            onClick={() => removeSlot(event.id)}
+          />
+      </div>
+    )};
   return (
     <>
       <Navbar />
@@ -101,7 +112,9 @@ const TeacherSlots = () => {
         timeslots={1}
         style={{ height: "100vh" }}
         defaultView="week"
-        
+        components={{
+          event: CustomSlot,
+        }}
       />
       </div>
     </>

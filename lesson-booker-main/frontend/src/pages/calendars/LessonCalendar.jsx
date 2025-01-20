@@ -8,7 +8,7 @@ import { SubmitButton, ExitButton, CancelButton } from "../../components/styled/
 import {FaTrash, FaEdit} from "react-icons/fa"
 import Navbar from "../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../firebase/firebase.js";
-import { collection, getDocs, where, query, addDoc, doc, deleteDoc, docre } from "firebase/firestore";
+import { collection, getDocs, where, query, addDoc, doc, deleteDoc, } from "firebase/firestore";
 import SelectTeacher from "./SelectTeacher.jsx"
 import { fetchTeacherName } from "./functions.js";
 import { useTeacher } from "../../context/TeacherProvider.jsx";
@@ -38,6 +38,7 @@ const { teacherID } = useTeacher();
   const [selectedTeacherID, setSelectedTeacherID] = useState("")
   const [teacherEvents, setTeacherEvents] = useState([])
   const [events, setEvents] = useState([]);
+  const [slots, setSlots] = useState([]);
   const [stName, setStName] = useState("");
   const [timeSlotInfo, setTimeSlotInfo] = useState();
 
@@ -67,11 +68,29 @@ const { teacherID } = useTeacher();
     }
   };
 
+  const fetchSlotsForSelectedTeacher = async () => {
+    try {
+    const slotQuery = query(collection(db, "slots"), where("teacherID", "==", selectedTeacherID))
+    const data = await getDocs(slotQuery)
+    const fetchedSlots = data.docs.map((doc) => {
+      const eventData = doc.data();
+      return {
+        id: doc.id,
+        start: eventData.start?.toDate(),
+        end: eventData.end?.toDate(),
+      }
+    })
+    setSlots(fetchedSlots)
+    
+    } catch (error) {
+      console.error("Error fetching slots:", error);
+    }
+  } 
+
   useEffect(() => {
     if (teacherID) {
       setSelectedTeacherID(teacherID);
       console.log(teacherID);
-      
     }
   }, [teacherID]);
 
@@ -85,7 +104,8 @@ useEffect(() => {
         setTeacherName(name);
 
         // teacher's events
-        await fetchEventsforSelectedTeacher(selectedTeacherID); 
+        await fetchEventsforSelectedTeacher(selectedTeacherID);
+        await fetchSlotsForSelectedTeacher(selectedTeacherID) 
       } catch (error) {
         console.error("Error fetching teacher data or events:", error);
       }
@@ -106,17 +126,19 @@ const handleNavigate = (newDate, view) => {
   }
 };
 
-// Filter out days before today in the week view
-const filterDays = (date) => {
-  const startOfWeek = moment(date).startOf("week").toDate(); // Start of the week
-  if (startOfWeek < today) {
-    return today; // Force the start date to today
-  }
-  return startOfWeek;
-};
+
   const handleSelectSlot = (slotInfo) => {
     if (slotInfo.start < new Date()) {
       alert("You cannot select a time in the past.");
+      return;
+    }
+    const isAvailable = slots.some(
+      (slot) =>
+        slot.start.getTime() === slotInfo.start.getTime() &&
+        slot.end.getTime() === slotInfo.end.getTime()
+    );
+    if (!isAvailable) {
+      alert("This slot is not available. Please choose an available slot.");
       return;
     }
     setModule(true);
@@ -126,7 +148,29 @@ const filterDays = (date) => {
   const exitHandler = () => {
     setModule(false);
   };
-
+  const slotPropGetter = (date) => {
+    const isAvailable = slots.some(
+      (slot) =>
+        slot.start.getTime() === date.getTime() // Match slot times
+    );
+  
+    if (!isAvailable) {
+      return {
+        style: {
+          backgroundColor: "lightgray",
+          pointerEvents: "none", // Disable pointer events
+          cursor: "not-allowed",
+        },
+      };
+    }
+  
+    return {
+      style: {
+        backgroundColor: "white",
+      },
+    };
+  };
+  
   const submitHandler = async () => {
     setModule(false);
   
@@ -195,7 +239,7 @@ const filterDays = (date) => {
       )}
 
       <div className={styled.app}>
-        { teacherSelected || teacherID ?
+        { teacherSelected ?
         // Added or since it wouldn't display the calendar
  
         <Calendar
@@ -210,6 +254,7 @@ const filterDays = (date) => {
           step={30}
           timeslots={1}
           min={todayStart}
+          slotPropGetter={slotPropGetter}
           onNavigate={handleNavigate}
           date={currentDate}
           style={{ height: "100vh" }}
