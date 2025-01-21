@@ -9,11 +9,13 @@ import { useSelector } from 'react-redux'
 import NavbarModule from './navbarModule/NavbarModule'
 import Numerator from '../../shopping/numerator/Numerator'
 import { auth } from '../../firebase/firebase'
+import { useTeacher } from '../../context/TeacherProvider'
 const Navbar = () => {
 const {logged, role,} =  useSelector((state) => state.login)
 const {user} = useSelector((state) => state)
 // console.log(role, logged, user);
   const [navbarModuleVisibility, setNavbarModuleVisibility] = useState(false)
+  const { setTeacherID } = useTeacher();
   return (
     <> 
     {role === "student" ? 
@@ -21,7 +23,7 @@ const {user} = useSelector((state) => state)
      <div className={styles.linkDiv}>
       <li><Link to="/profile">Profile</Link></li>
       <li><Link to="/student-classes"> My Lessons</Link></li>
-      <li><Link to="/calendar">Calendar</Link></li>
+      <li onClick={() => setTeacherID(null)}><Link to="/calendar">Calendar</Link></li>
      </div>
      <div className={styles.imgDiv}>
       <LoginBtn><Link to="/">Home</Link></LoginBtn>

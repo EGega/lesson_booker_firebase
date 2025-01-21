@@ -31,6 +31,8 @@ const refreshCalendar = () => {
 const teacherCollectionRef = collection(db, "teachers")
 const eventCollectionRef = collection(db, "events")
 const { teacherID } = useTeacher();
+console.log(teacherID);
+
 
   const [module, setModule] = useState(false);
   const [teacherSelected, setTeacherSelected] = useState(false)
@@ -239,8 +241,7 @@ const handleNavigate = (newDate, view) => {
       )}
 
       <div className={styled.app}>
-        { teacherSelected ?
-        // Added or since it wouldn't display the calendar
+        { teacherSelected || teacherID  ? 
  
         <Calendar
           key={calendarKey}

@@ -8,7 +8,9 @@ import { db, auth } from '../../firebase/firebase'
 import { getDocs, collection, query, where } from 'firebase/firestore';   
 import { useEffect, useState } from 'react'
 import { SubmitButton } from '../../components/styled/styledbuttons/buttons'
+import { useTeacher } from '../../context/TeacherProvider'
 const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID, setTeacherEvents}) => {
+  const { setTeacherID } = useTeacher();
    const [teacherList, setTeacherList] = useState([]) 
   
    const teacherCollectionRef = collection(db, "teachers");
@@ -20,12 +22,13 @@ const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID, setTeacherEv
      }
 
     const handleTeacherSelect = (teacherID) => {
-        setTeacherSelected(true)
+        // setTeacherSelected(true)
+        setTeacherID(teacherID)
         setSelectedTeacherID(teacherID)
-        console.log(teacherID);
-        
-    }    
-      useEffect(() => {
+        console.log("Teacher Selected:", teacherID);      
+    }
+    
+  useEffect(() => {
         getTeacherList()
       }, []);
   return (
@@ -47,7 +50,6 @@ const SelectTeachers = ({ setTeacherSelected, setSelectedTeacherID, setTeacherEv
           <h3>{gender}</h3>
         </div>
         <SubmitButton style={{ width: '80%', marginBottom: "10px" }} onClick={ () => handleTeacherSelect(userId)} >Book a Lesson</SubmitButton>
-       
       </div>
     )
    })}

@@ -10,7 +10,9 @@ import goToLesson from "../../../../assets/classes/goToYourLesson.jpg"
 import { ClickButton } from '../../../../components/styled/styledbuttons/buttons'
 import { BsFillMouse2Fill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom'
+import { useTeacher } from '../../../../context/TeacherProvider'
 const StudentClasses = () => {
+const { setTeacherID } = useTeacher();
 
   const navigate = useNavigate()
   return (
@@ -27,6 +29,7 @@ const StudentClasses = () => {
           <img src={bookNow} alt="Book Now" />  
           <ClickButton onClick={() => {
            navigate("/calendar")
+           setTeacherID(null)
           }}>Book a Lesson <BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.completedLessons}>
