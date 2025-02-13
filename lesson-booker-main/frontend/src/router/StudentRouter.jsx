@@ -16,6 +16,8 @@ import Success from '../payments/Success';
 import Cancel from '../payments/Cancel';
 import StudentList from '../home/studentHome/StudentList';
 import MyLessons from "../pages/teacherPages/classes/studentClasses/studentLessons/MyLessons"
+import CompletedLessons from '../pages/teacherPages/classes/studentClasses/CompletedLessons';
+
 const StudentRouter = () => {
   return (
     <>
@@ -36,6 +38,7 @@ const StudentRouter = () => {
         <Route path='/success' element={<Success />} />
         <Route path='/cancel' element={<Cancel />} />
         <Route path='/my-lessons' element={<MyLessons />} />
+        <Route path='/completed-lessons' element={<CompletedLessons />} />
     </Routes>
     </>
   )

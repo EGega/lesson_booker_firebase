@@ -34,7 +34,9 @@ const { setTeacherID } = useTeacher();
         </div>
         <div className={styled.completedLessons}>
           <img src={completedLessons} alt="completed Lessons" />
-          <ClickButton>Completed Lessons <BsFillMouse2Fill /> </ClickButton>
+          <ClickButton onClick={() => {
+            navigate('/completed-lessons')
+          }}>Completed Lessons <BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.subscribe }>
           <img src={subscribe} alt="Subscribe" />
@@ -52,7 +54,7 @@ const { setTeacherID } = useTeacher();
         </div>
       </div>
      </>
-  )
+  ) 
 }
 
 export default StudentClasses
