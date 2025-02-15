@@ -13,7 +13,7 @@ import Feedback from "../pages/feedback/Feedback";
 import Administration from '../pages/teacherPages/adminstration/Administration';
 import TeacherSlots from '../pages/teacherPages/classes/teacherClasses/TeacherSlots'
 import CompletedTeacherLessons from '../pages/teacherPages/classes/teacherClasses/CompletedTeacheLessons';
-
+import AwaitingTeacherLessons from '../pages/teacherPages/classes/teacherClasses/AwaitingTeacherLessons';
 const TeacherRouter = () => {
   return (
  <>
@@ -31,6 +31,7 @@ const TeacherRouter = () => {
         <Route path='/administration' element={<Administration />} />
         <Route path='/slots' element={<TeacherSlots />}/>
         <Route path='completed-teacher-lessons' element={<CompletedTeacherLessons />}/>
+        <Route path='awaiting-teacher-lessons' element={<AwaitingTeacherLessons />}/>
    </Routes>
  </>
     )

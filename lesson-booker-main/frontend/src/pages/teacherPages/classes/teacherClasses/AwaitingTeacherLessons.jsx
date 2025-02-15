@@ -4,7 +4,7 @@ import styled from './CompletedTeacherLessons.module.css'
 import { collection, query, where, getDocs} from "firebase/firestore";
 import { auth, db } from '../../../../firebase/firebase';
 import { useState, useEffect } from 'react';
-const CompletedTeacherLessons = () => {
+const AwaitingTeacherLessons = () => {
 
 const eventCollectionRef = collection(db, "events")
 const [events, setEvents] = useState([]);
@@ -25,7 +25,7 @@ const [events, setEvents] = useState([]);
             start: data.start.toDate(), 
             end: data.end.toDate(), 
           };
-        }).filter((event) => event.end < now);
+        }).filter((event) => event.end > now);
   
         setEvents(fetchedEvents); 
         console.log("Fetched and formatted teacher events:", fetchedEvents);
@@ -45,7 +45,7 @@ const [events, setEvents] = useState([]);
     <>
     <Navbar></Navbar>
     <div className={styled.container}>
-    <h4>Total Completed Lessons: {events.length} </h4>
+    <h4>Total Awaiting Lessons: {events.length} </h4>
     <div className={styled.lesson}>
       {events.map((event) => {
         return (
@@ -61,4 +61,4 @@ const [events, setEvents] = useState([]);
   )
 }
 
-export default CompletedTeacherLessons
+export default AwaitingTeacherLessons
