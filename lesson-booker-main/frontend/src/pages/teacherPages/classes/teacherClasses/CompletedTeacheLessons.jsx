@@ -1,20 +1,20 @@
 import React from 'react'
 import Navbar from '../../../../components/navbar/Navbar'
-import styled from './CompletedLessons.module.css'
+import styled from './CompletedTeacherLessons.module.css' 
 import { collection, query, where, getDocs} from "firebase/firestore";
 import { auth, db } from '../../../../firebase/firebase';
 import { useState, useEffect } from 'react';
-const CompletedLessons = () => {
+const CompletedTeacherLessons = () => {
 
 const eventCollectionRef = collection(db, "events")
 const [events, setEvents] = useState([]);
 
 
   useEffect(() => {
-    const fetchStudentEvents = async () => {
+    const fetchTeacherEvents = async () => {
       try {
-        const studentID = auth.currentUser.uid; 
-        const q = query(eventCollectionRef, where("studentID", "==", studentID));
+        const teacherID = auth.currentUser.uid; 
+        const q = query(eventCollectionRef, where("teacherID", "==", teacherID));
         const querySnapshot = await getDocs(q);
   
         const fetchedEvents = querySnapshot.docs.map((doc) => {
@@ -28,19 +28,19 @@ const [events, setEvents] = useState([]);
         });
   
         setEvents(fetchedEvents); 
-        console.log("Fetched and formatted student events:", fetchedEvents);
+        console.log("Fetched and formatted teacher events:", fetchedEvents);
       } catch (error) {
-        console.error("Error fetching student events:", error);
+        console.error("Error fetching teacher events:", error);
       }
     };
   
-    fetchStudentEvents(); 
+    fetchTeacherEvents(); 
     console.log(events);
     
   }, []);
 
 
-
+ 
   return (
     <>
     <Navbar></Navbar>
@@ -50,7 +50,7 @@ const [events, setEvents] = useState([]);
       {events.map((event) => {
         return (
             <div className={styled.event}>
-            <p>{event?.teacherName}</p> 
+            <p>{event?.studentName}</p> 
             <p> {event?.start.toLocaleDateString('en-GB')}  {event?.start.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} - {event?.end.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p> 
             </div>
         )
@@ -61,4 +61,4 @@ const [events, setEvents] = useState([]);
   )
 }
 
-export default CompletedLessons
+export default CompletedTeacherLessons

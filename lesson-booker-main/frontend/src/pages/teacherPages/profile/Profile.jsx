@@ -6,6 +6,7 @@ import { useState } from "react"
 import CertificateModal from "./CertificateModal"
 import { Link } from "react-router-dom"
 import ProfileEditor from "./profileEditor/ProfileEditor"
+import CompletedTeacheLessons from "../classes/teacherClasses/CompletedTeacheLessons"
 
 const Profile = () => {
   const [enlargedImg, setenlargedImg] = useState(null)
@@ -31,11 +32,13 @@ const Profile = () => {
           </div>
           <div className={styled.rightSide}>
             <h2>General Info</h2>
-            <div>
-            <h3>Completed Lessons: </h3>
-            <h3>Awaiting Lessons</h3>
-            <h3>Students</h3>
-            <Link to={"/lessoninfo"} className={styled.tdLessons}> <h4>Today's Lessons</h4></Link>
+            <div className={styled.lists}>
+            <li> <Link to="/completed-teacher-lessons">Completed Lessons</Link> </li>
+            <li><Link to="/awaiting-teacher-lessons">Awaiting Lessons</Link></li>
+            <li> <Link to="/personal-students">Students</Link> </li>
+            <li>
+            <Link to={"/lessoninfo"} className={styled.tdLessons}> Today's Lessons</Link>
+            </li> 
             </div>
           </div>
          </div>

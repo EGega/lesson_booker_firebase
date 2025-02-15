@@ -12,6 +12,7 @@ import LessonInfo from "../pages/teacherPages/lessonInfo/LessonInfo";
 import Feedback from "../pages/feedback/Feedback";
 import Administration from '../pages/teacherPages/adminstration/Administration';
 import TeacherSlots from '../pages/teacherPages/classes/teacherClasses/TeacherSlots'
+import CompletedTeacherLessons from '../pages/teacherPages/classes/teacherClasses/CompletedTeacheLessons';
 
 const TeacherRouter = () => {
   return (
@@ -28,7 +29,8 @@ const TeacherRouter = () => {
         <Route path='/lessoninfo' element={<LessonInfo />} />
         <Route path='/feedback' element={<Feedback />} />
         <Route path='/administration' element={<Administration />} />
-        <Route path='slots' element={<TeacherSlots />}/>
+        <Route path='/slots' element={<TeacherSlots />}/>
+        <Route path='completed-teacher-lessons' element={<CompletedTeacherLessons />}/>
    </Routes>
  </>
     )

@@ -52,3 +52,39 @@ background-color: antiquewhite;
 .tdLessons {
     text-decoration: none;
 }
+
+/* li a {
+    list-style-type: none;
+    color: #fff;
+} */
+
+.lists {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+}
+
+.lists li {
+    background: rgba(255, 255, 255, 0.1); /* Subtle background */
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lists li:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.15); /* Soft glow effect */
+}
+
+.lists a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.lists a:hover {
+    color: #f8c291; /* Softer highlight color */
+}
