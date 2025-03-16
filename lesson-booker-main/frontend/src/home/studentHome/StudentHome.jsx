@@ -23,12 +23,12 @@ const StudentHome = () => {
         <button onClick={() => navigate('/student-classes')} >Classes</button>
         </div>
         <div>
-        <img src={books} alt="books" />
-        <button onClick={() => navigate("/books")}>Books</button>
+        <img src={videos} alt="videos" />
+        <button  onClick={() => navigate("/teaching-videos")} >Videos</button>
         </div>
         <div>
-        <img src={videos} alt="videos" />
-        <button  onClick={() => navigate("/student-list")} >StudentList</button>
+        <img src={books} alt="books" />
+        <button onClick={() => navigate("/books")}>Books</button>
         </div>
         <div>
         <img src={administration} alt="administration" />

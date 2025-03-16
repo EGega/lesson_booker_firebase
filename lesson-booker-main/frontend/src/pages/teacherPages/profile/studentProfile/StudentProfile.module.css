@@ -1,0 +1,81 @@
+.container {
+    width: 100%;
+    height: calc(100vh - 65px);
+    margin-top: 65px;
+    padding-top:20px ;
+    /* background-color: antiquewhite; */
+    }
+    .personalInfo {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.976);
+        height: 95%;
+        margin-left: 25px;
+        margin-right: 25px;
+        color: rgb(25, 28, 30);
+        border-left: 3px solid green;
+        border-right: 3px solid green;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
+        display: flex;
+        justify-content: space-around;
+    
+    }
+    .image {
+        width: 200px;
+        border-radius: 50%;
+        border: 2px solid green;
+    }
+    
+
+    
+    .rightSide h2{
+     margin-bottom: 20%;
+    }
+    
+    .rightSide, .leftSide {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
+        width: 35%;
+        padding:0  70px;
+        color: white;
+        background-color: #3d322bd8;;
+    }
+    
+    .tdLessons {
+        text-decoration: none;
+    }
+    
+    /* li a {
+        list-style-type: none;
+        color: #fff;
+    } */
+    
+    .lists {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 0;
+    }
+    
+    .lists li {
+        background: rgba(255, 255, 255, 0.1); /* Subtle background */
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .lists li:hover {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.15); /* Soft glow effect */
+    }
+    
+    .lists a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .lists a:hover {
+        color: #f8c291; /* Softer highlight color */
+    }

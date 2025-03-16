@@ -16,7 +16,7 @@ const [events, setEvents] = useState([]);
         const studentID = auth.currentUser.uid; 
         const q = query(eventCollectionRef, where("studentID", "==", studentID));
         const querySnapshot = await getDocs(q);
-  
+        const now = new Date()
         const fetchedEvents = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
@@ -25,7 +25,7 @@ const [events, setEvents] = useState([]);
             start: data.start.toDate(), 
             end: data.end.toDate(), 
           };
-        });
+        }).filter((event) => event.end < now);
   
         setEvents(fetchedEvents); 
         console.log("Fetched and formatted student events:", fetchedEvents);

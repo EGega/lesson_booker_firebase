@@ -21,13 +21,13 @@ const {user} = useSelector((state) => state)
     {role === "student" ? 
     <NavbarStyle>
      <div className={styles.linkDiv}>
-      <li><Link to="/profile">Profile</Link></li>
+      <li><Link to="/student-profile">Profile</Link></li>
       <li><Link to="/student-classes"> My Lessons</Link></li>
       <li onClick={() => setTeacherID(null)}><Link to="/calendar">Book a Lesson</Link></li>
      </div>
      <div className={styles.imgDiv}>
       <LoginBtn><Link to="/">Home</Link></LoginBtn>
-      <Link to="/profile"> {auth.currentUser.displayName}</Link>
+      <Link to="/student-profile"> {auth.currentUser.displayName}</Link>
       <div className={styles.imageDiv}>
        <img className={styles.avatarImage} onClick={() => {
          setNavbarModuleVisibility((prevValue) => !prevValue)
