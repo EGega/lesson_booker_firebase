@@ -15,8 +15,8 @@ const StudentProfile = () => {
             <div className={styled.rightSide}>
               <h2>General Info</h2>
               <div className={styled.lists}>
-              <li> <Link to="/completed-teacher-lessons">Completed Lessons</Link> </li>
-              <li><Link to="/awaiting-teacher-lessons">Awaiting Lessons</Link></li>
+              <li> <Link to="/completed-lessons">Completed Lessons</Link> </li>
+              <li><Link to="/awaiting-lessons">Awaiting Lessons</Link></li>
               <li> <Link to="/personal-students">Students</Link> </li>
               <li>
               <Link to={"/lessoninfo"} className={styled.tdLessons}> Today's Lessons</Link>

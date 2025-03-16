@@ -19,6 +19,7 @@ import MyLessons from "../pages/teacherPages/classes/studentClasses/studentLesso
 import CompletedLessons from '../pages/teacherPages/classes/studentClasses/CompletedLessons';
 import TeachingVideos from '../pages/teacherPages/videos/TeachingVideos';
 import StudentProfile from '../pages/teacherPages/profile/studentProfile/StudentProfile';
+import AwaitingLessons from '../pages/teacherPages/classes/studentClasses/AwaitingLessons';
 
 const StudentRouter = () => {
   return (
@@ -43,6 +44,7 @@ const StudentRouter = () => {
         <Route path='/completed-lessons' element={<CompletedLessons />} />
         <Route path='/teaching-videos' element={<TeachingVideos />} />
         <Route path='/student-profile' element={<StudentProfile />} />
+        <Route path='/awaiting-lessons' element={<AwaitingLessons />} />
     </Routes>
     </>
   )

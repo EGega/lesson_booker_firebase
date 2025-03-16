@@ -5,22 +5,11 @@ import { updateDoc, doc, onSnapshot } from "firebase/firestore"
 import avatar from "../../../../assets/maleAvatar.jpg" 
 import styled from './StudentProfileEditor.module.css'
 
-const StudentProfileEditor = () => {
-    // const updateDocument = async (collectionName, docId, updatedData) => {
-    //     try {
-    //       const docRef = doc(db, collectionName, docId);
-    //       await updateDoc(docRef, updatedData);
-    //       console.log("Document updated successfully!");
-    //     } catch (error) {
-    //       console.error("Error updating document: ", error);
-    //     }
-    //   };
-    
+const StudentProfileEditor = () => {    
       const [studentInfo, setStudentInfo] = useState({
         firstName: "",
         lastName: "",
         birthYear: "",
-        introVideo: "",
         gender: ""
       });
     
@@ -64,9 +53,8 @@ const StudentProfileEditor = () => {
             <img src={avatar} className={styled.image} alt="" />
             <h3>{studentInfo.firstName}</h3>
             <h3>{studentInfo.lastName}</h3>
-            <h3>{studentInfo.profession}</h3>
-            <h3>{studentInfo.country}</h3>
-            <a className={styled.videoLink} href={studentInfo.introVideo} target="blank">Intro Video</a>
+            <h3>{studentInfo.birthYear}</h3>
+            <h3>{studentInfo.gender}</h3>
             <button onClick={() => setEditing(true)} className={styled.editProfile}>Edit Profile</button>
           </div> : 
           <form className={styled.form} onSubmit={handleSubmit} action="">
@@ -88,11 +76,6 @@ const StudentProfileEditor = () => {
               type="number"
               placeholder="BirthYear"
               onChange={(e) => setStudentInfo({ ...studentInfo, birthYear: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Video Link"
-              onChange={(e) => setStudentInfo({ ...studentInfo, introVideo: e.target.value })}
             />
             {/* <label for="gender">Gender</label> */}
             <select
