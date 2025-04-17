@@ -41,7 +41,7 @@ const [events, setEvents] = useState([]);
 
 
  
-  return (
+  return ( 
     <>
     <Navbar></Navbar>
     <div className={styled.container}>

@@ -20,7 +20,7 @@ import CompletedLessons from '../pages/teacherPages/classes/studentClasses/Compl
 import TeachingVideos from '../pages/teacherPages/videos/TeachingVideos';
 import StudentProfile from '../pages/teacherPages/profile/studentProfile/StudentProfile';
 import AwaitingLessons from '../pages/teacherPages/classes/studentClasses/AwaitingLessons';
-
+import TodayLessons from '../pages/teacherPages/classes/studentClasses/TodayLessons';
 const StudentRouter = () => {
   return (
     <>
@@ -45,6 +45,7 @@ const StudentRouter = () => {
         <Route path='/teaching-videos' element={<TeachingVideos />} />
         <Route path='/student-profile' element={<StudentProfile />} />
         <Route path='/awaiting-lessons' element={<AwaitingLessons />} />
+        <Route path='/todays-lessons' element={<TodayLessons />} />
     </Routes>
     </>
   )
