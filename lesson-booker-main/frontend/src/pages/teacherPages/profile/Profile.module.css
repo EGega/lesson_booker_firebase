@@ -27,12 +27,6 @@ background-color: antiquewhite;
 }
 
 
-.middleSide img{
-  width: 200px;
-  display: block;
-  margin-bottom: 30px;
-  cursor: zoom-in;
-}
 .middleSide h2 {
     text-align: center;
     margin-bottom: 50%;

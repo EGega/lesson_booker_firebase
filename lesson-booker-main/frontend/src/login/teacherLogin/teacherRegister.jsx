@@ -88,7 +88,7 @@ const TeacherRegister = ({setRegister}) => {
           </InputStyle>
           <LoginBtn onClick={registerHandler}> Register </LoginBtn>
         </FormStyle>
-        {/* Not a user */}
+        {/* Not a user */} 
         <NotAnUser >
          <div>
           <p>Already a User?</p>

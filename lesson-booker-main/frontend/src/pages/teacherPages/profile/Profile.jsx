@@ -6,6 +6,7 @@ import { useState } from "react"
 import CertificateModal from "./CertificateModal"
 import { Link } from "react-router-dom"
 import ProfileEditor from "./profileEditor/ProfileEditor"
+import CertificateEditor from "./certificateEditor/CertificateEditor"
 import CompletedTeacheLessons from "../classes/teacherClasses/CompletedTeacheLessons"
 
 const Profile = () => {
@@ -26,9 +27,10 @@ const Profile = () => {
           <ProfileEditor />
           </div>
           <div className={styled.middleSide}>
-            <h2>Certificates</h2>
+          <CertificateEditor openCertModal={openCertModal}/>
+            {/* <h2>Certificates</h2>
             <img src={Toefl} alt="" onClick={ () => openCertModal(Toefl)} />
-            <img src={teachingCert} alt="" onClick={ () => openCertModal(teachingCert)} />
+            <img src={teachingCert} alt="" onClick={ () => openCertModal(teachingCert)} /> */}
           </div>
           <div className={styled.rightSide}>
             <h2>General Info</h2>
@@ -49,5 +51,5 @@ const Profile = () => {
     </>
   )
 }
-
+ 
 export default Profile
