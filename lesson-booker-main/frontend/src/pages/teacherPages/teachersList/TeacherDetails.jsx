@@ -102,7 +102,7 @@ const TeacherDetails = () => {
          </div>
         </div>
       </div>
-    </>
+    </> 
   )
 }
 

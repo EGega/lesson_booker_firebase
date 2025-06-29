@@ -46,9 +46,9 @@ useEffect(() => {
    <Navbar/>
    <div className={styled.container}>
    {studentList.map((student) => {
-    const {uid, firstName, lastName, gender, img, age} = student
+    const {userId, firstName, lastName, gender, img, age} = student
     return(
-   <div className={styled.card} key={uid}>
+   <div className={styled.card} key={userId}>
       <img className={styled.img} src={img} alt="" />
       <div className={styled.name}>
         <h2>{firstName}</h2>
@@ -59,7 +59,7 @@ useEffect(() => {
         <h3>{age}</h3>
       </div>
      
-       <Link to={`/students/${uid}`} className={styled.btn}>
+       <Link to={`/students/${userId}`} className={styled.btn}>
               Details
       </Link>
      
