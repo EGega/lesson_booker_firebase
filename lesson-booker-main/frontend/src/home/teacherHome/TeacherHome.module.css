@@ -1,6 +1,6 @@
 .container{
 height: calc(100vh);
-margin-top: 75px;
+margin-top: 70px;
 width: 100%;  
 background-image: url("../../assets/teacherbg.jpg");
 background-position: center;
@@ -11,12 +11,16 @@ grid-template-columns: repeat(3, 1fr);
 column-gap: 50px;
 row-gap: 50px;
 padding: 20px;
+/* place-items: center; */
+
 }
 
 .container div {
+  margin-top: 10%;
   background-color: #3d322bed;
   display: flex;
   flex-direction: column;
+  height: 50%;
 }
 .container img {
   height: 80%;

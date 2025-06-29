@@ -1,0 +1,33 @@
+.container {
+    margin-top: 65px;
+    padding:20px 20px 0 20px ;
+    width: 100%;
+    height: calc(100vh - 65px);
+    background-color: antiquewhite;
+    /* display: flex;
+    justify-content: space-around; */
+}
+
+.container ul {
+    display: grid; 
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px
+}
+.container ul li {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.289), 0 6px 20px 0 rgba(0, 0, 0, 0.494);
+    list-style: none;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.container ul li a {
+    text-decoration: none;
+    color: #0f2a01;
+}
+.arrow {
+    color: green;
+    font-size: 1.5rem;
+}
