@@ -93,7 +93,7 @@ const MyLessons = () => {
         />
       </div>
     </>
-  );
+  ); 
 };
 
 export default MyLessons;
