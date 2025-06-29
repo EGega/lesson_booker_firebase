@@ -14,6 +14,7 @@ import Administration from '../pages/teacherPages/adminstration/Administration';
 import TeacherSlots from '../pages/teacherPages/classes/teacherClasses/TeacherSlots'
 import CompletedTeacherLessons from '../pages/teacherPages/classes/teacherClasses/CompletedTeacheLessons';
 import AwaitingTeacherLessons from '../pages/teacherPages/classes/teacherClasses/AwaitingTeacherLessons';
+import GoogleDriveBooks from '../pages/teacherPages/books/googleDriverBooks/GoogleDriveBooks';
 const TeacherRouter = () => {
   return (
  <>
@@ -22,7 +23,7 @@ const TeacherRouter = () => {
         <Route path='/students' element={<Students/>}/>
         <Route path='/students/:id' element={<StudentDetails />} />
         <Route path='/classes' element={<TeacherClasses/>}/>
-        <Route path='/books' element={<Books/>}/>
+        <Route path='/books' element={<GoogleDriveBooks/>}/>
         <Route path='/books/:id' element={<BookDetails/>}/>
         <Route path='/calendar' element={<LessonCalendar />} />
         <Route path='/profile' element={<Profile />} />
