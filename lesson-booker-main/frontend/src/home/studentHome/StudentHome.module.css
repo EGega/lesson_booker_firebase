@@ -14,9 +14,11 @@
     }
     
     .container div {
-      background-color: #3d322bed;
-      display: flex;
-      flex-direction: column;
+  margin-top: 10%;
+  background-color: #3d322bed;
+  display: flex;
+  flex-direction: column;
+  height: 50%;
     }
     .container img {
       height: 80%;

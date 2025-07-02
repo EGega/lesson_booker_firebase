@@ -21,6 +21,7 @@ import TeachingVideos from '../pages/teacherPages/videos/TeachingVideos';
 import StudentProfile from '../pages/teacherPages/profile/studentProfile/StudentProfile';
 import AwaitingLessons from '../pages/teacherPages/classes/studentClasses/AwaitingLessons';
 import TodayLessons from '../pages/teacherPages/classes/studentClasses/TodayLessons';
+import Reviews from '../pages/teacherPages/classes/studentClasses/Reviews';
 const StudentRouter = () => {
   return (
     <>
@@ -46,6 +47,7 @@ const StudentRouter = () => {
         <Route path='/student-profile' element={<StudentProfile />} />
         <Route path='/awaiting-lessons' element={<AwaitingLessons />} />
         <Route path='/todays-lessons' element={<TodayLessons />} />
+        <Route path='/reviews' element={<Reviews />} />
     </Routes>
     </>
   )

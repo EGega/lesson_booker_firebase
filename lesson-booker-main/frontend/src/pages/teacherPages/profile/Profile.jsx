@@ -37,10 +37,10 @@ const Profile = () => {
             <div className={styled.lists}>
             <li> <Link to="/completed-teacher-lessons">Completed Lessons</Link> </li>
             <li><Link to="/awaiting-teacher-lessons">Awaiting Lessons</Link></li>
-            <li> <Link to="/personal-students">Students</Link> </li>
             <li>
-            <Link to={"/lessoninfo"} className={styled.tdLessons}> Today's Lessons</Link>
+            <Link to={"/today-teacher-lessons"} className={styled.tdLessons}> Today's Lessons</Link>
             </li> 
+            <li> <Link to="/students">My Students</Link> </li>
             </div>
           </div>
          </div>

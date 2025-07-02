@@ -7,6 +7,7 @@ import books from '../../assets/books.jpg'
 import videos from '../../assets/videos.jpg'
 import administration from '../../assets/administration.jpg'
 import review from '../../assets/review.jpg'
+import reviews from '../../assets/review.jpg'
 import { useNavigate } from 'react-router-dom'
 const StudentHome = () => {
     const navigate = useNavigate()
@@ -23,10 +24,10 @@ const StudentHome = () => {
         <button onClick={() => navigate('/student-classes')} >Classes</button>
         </div>
         <div>
-        <img src={videos} alt="videos" />
-        <button  onClick={() => navigate("/teaching-videos")} >Videos</button>
+        <img src={reviews} alt="reviews" />
+        <button  onClick={() => navigate("/reviews")} >Reviews</button>
         </div>
-        <div>
+        {/* <div>
         <img src={books} alt="books" />
         <button onClick={() => navigate("/books")}>Books</button>
         </div>
@@ -37,7 +38,7 @@ const StudentHome = () => {
         <div>
         <img src={review}  alt="review" />
         <button onClick={() => navigate("/feedback") }>Feedback</button>
-        </div>
+        </div> */}
      </div>
 
     </>

@@ -3,7 +3,8 @@ import Navbar from '../../../../components/navbar/Navbar'
 import styled from './StudentClasses.module.css'
 import bookNow from "../../../../assets/classes/bookNow.jpg"
 import buyBooks from "../../../../assets/classes/buyBooks.png"
-import subscribe from "../../../../assets/classes/subscribe.jpg"
+import awaitingLessons from "../../../../assets/classes/awaitingLessons.png"
+import todaysLessons from "../../../../assets/classes/todaysLessons.jpg"
 import refer from  "../../../../assets/classes/refer.jpg"
 import completedLessons from "../../../../assets/classes/completedLessons.jpg"
 import goToLesson from "../../../../assets/classes/goToYourLesson.jpg"
@@ -39,14 +40,15 @@ const { setTeacherID } = useTeacher();
           }}>Completed Lessons <BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.subscribe }>
-          <img src={subscribe} alt="Subscribe" />
-          <ClickButton>Full Time Courses <BsFillMouse2Fill /> </ClickButton>
+          <img src={awaitingLessons} alt="Subscribe" />
+          <ClickButton onClick={() => {
+            navigate('/awaiting-lessons')}}S >Awaiting Lessons <BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.buyBook}>
-          <img src={buyBooks} alt="BuyBooks" />
+          <img src={todaysLessons} alt="BuyBooks" />
           <ClickButton onClick={() => {
-            navigate('/books')
-          }}>Buy Books <BsFillMouse2Fill /> </ClickButton>
+            navigate('/todays-lessons')
+          }}>Today's Lessons<BsFillMouse2Fill /> </ClickButton>
         </div>
         <div className={styled.refer}>
         <img src={refer} alt="refer" />
