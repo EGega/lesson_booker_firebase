@@ -13,6 +13,11 @@ import SelectTeacher from "./SelectTeacher.jsx"
 import { fetchTeacherName } from "./functions.js";
 import { useTeacher } from "../../context/TeacherProvider.jsx";
 
+async function getIdToken() {
+const user = auth.currentUser;
+if (!user) throw new Error("Not authenticated");
+return await user.getIdToken();
+}
 
 const localizer = momentLocalizer(moment);
 
@@ -173,28 +178,90 @@ const handleNavigate = (newDate, view) => {
     };
   };
   
-  const submitHandler = async () => {
-    setModule(false);
+  // const submitHandler = async () => {
+  //   setModule(false);
   
-    const newEvent = {
-      title: ` ${auth?.currentUser.displayName} - ${teacherName} `,
-      start: timeSlotInfo.start,
-      end: timeSlotInfo.end,
-      studentName: auth.currentUser.displayName,
-      studentID: auth.currentUser.uid,
-      teacherID: selectedTeacherID,
-      teacherName,
-    };
+  //   const newEvent = {
+  //     title: ` ${auth?.currentUser.displayName} - ${teacherName} `,
+  //     start: timeSlotInfo.start,
+  //     end: timeSlotInfo.end,
+  //     studentName: auth.currentUser.displayName,
+  //     studentID: auth.currentUser.uid,
+  //     teacherID: selectedTeacherID,
+  //     teacherName,
+  //   };
   
-    try {
-      const docRef = await addDoc(eventCollectionRef, newEvent);
-      const createdEvent = { ...newEvent, id: docRef.id,  isCurrentStudent: true };
-      setEvents((prevEvents) => [...prevEvents, createdEvent]);
-      refreshCalendar();
-    } catch (error) {
-      console.error("Error adding event:", error);
-    }
-  };
+  //   try {
+  //     const docRef = await addDoc(eventCollectionRef, newEvent);
+  //     const createdEvent = { ...newEvent, id: docRef.id,  isCurrentStudent: true };
+  //     setEvents((prevEvents) => [...prevEvents, createdEvent]);
+  //     refreshCalendar();
+  //   } catch (error) {
+  //     console.error("Error adding event:", error);
+  //   }
+  // };
+
+const submitHandler = async () => {
+try {
+setModule(false);
+
+
+// Prepare payload
+const startISO = timeSlotInfo.start.toISOString();
+const endISO = timeSlotInfo.end?.toISOString?.();
+
+
+const payload = {
+start_time: startISO,
+end_time: endISO, // optional; backend will compute if missing
+topic: `${auth?.currentUser?.displayName} - ${teacherName}`,
+duration: 60,
+timezone: "UTC", // or your desired TZ
+teacherID: selectedTeacherID,
+teacherName,
+studentID: auth.currentUser.uid,
+studentName: auth.currentUser.displayName,
+};
+
+
+const idToken = await getIdToken();
+
+
+const resp = await fetch("http://localhost:4000/create-zoom-meeting", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+Authorization: `Bearer ${idToken}`,
+},
+body: JSON.stringify(payload),
+});
+
+
+if (!resp.ok) {
+const err = await resp.json().catch(() => ({}));
+throw new Error(err.error || `HTTP ${resp.status}`);
+}
+
+
+const createdEvent = await resp.json();
+ 
+
+// Update local state so calendar updates immediately
+setEvents((prev) => [
+...prev,
+{
+...createdEvent,
+ start: new Date(createdEvent.start),
+    end: new Date(createdEvent.end),
+    isCurrentStudent: true,
+},
+]);
+refreshCalendar();
+} catch (error) {
+console.error("Error creating event:", error);
+alert(error.message || "Failed to book lesson");
+}
+};
 
 
   const removeEvent = async (eventId, eventStartTime) => {
@@ -214,19 +281,37 @@ const handleNavigate = (newDate, view) => {
     }
   };
 
-  const CustomEvent = ({ event }) => { 
-    return ( 
-    <div>
-      <strong>{event.title}</strong>
-      {event.isCurrentStudent && (
-        <FaTrash
-          className={styled.trashBin}
-          onClick={() => removeEvent(event.id, event.start)}
-        />
-      )}
-    </div>
-  )};
-  // console.log(events);
+  // const CustomEvent = ({ event }) => { 
+  //   return ( 
+  //   <div>
+  //     <strong>{event.title}</strong>
+  //     {event.isCurrentStudent && (
+  //       <FaTrash
+  //         className={styled.trashBin}
+  //         onClick={() => removeEvent(event.id, event.start)}
+  //       />
+  //     )}
+  //   </div>
+  // )};
+  // // console.log(events);
+
+
+const CustomEvent = ({ event }) => (
+<div>
+<strong>{event.title}</strong>
+{event.isCurrentStudent && (
+<div>
+<a href={event.zoomLink} target="_blank" rel="noreferrer">Join Zoom</a>
+</div>
+)}
+{event.isCurrentStudent && (
+<FaTrash
+className={styled.trashBin}
+onClick={() => removeEvent(event.id, event.start)}
+/>
+)}
+</div>
+);
   
 
   return (

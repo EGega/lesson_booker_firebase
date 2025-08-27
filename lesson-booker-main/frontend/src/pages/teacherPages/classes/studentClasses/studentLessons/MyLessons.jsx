@@ -8,7 +8,7 @@ import Navbar from "../../../../../components/navbar/Navbar.jsx";
 import { auth, db } from "../../../../../firebase/firebase.js";
 import {FaTrash, FaEdit} from "react-icons/fa"
 import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
-
+ 
 const localizer = momentLocalizer(moment);
 
 const MyLessons = () => {
@@ -62,6 +62,7 @@ const MyLessons = () => {
   const CustomEvent = ({ event }) => (
     <div>
       <strong>{event.title}</strong>
+      <a className={styled.link} target="blank"  rel="noreferrer" href={event.zoomLink}>Join Zoom</a>
       <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id, event.start)} />
     </div>
   );

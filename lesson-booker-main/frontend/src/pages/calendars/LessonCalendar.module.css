@@ -39,3 +39,9 @@ right: 5px;
 bottom: 5px;
 color: rgb(80, 255, 80);
 }
+
+.link {
+ color: white;
+ display: block;
+ padding-top:2%
+}
