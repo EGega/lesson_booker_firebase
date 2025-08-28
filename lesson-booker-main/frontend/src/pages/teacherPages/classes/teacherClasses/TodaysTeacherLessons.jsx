@@ -57,6 +57,7 @@ useEffect(() => {
             <div className={styled.event}>
             <p>{event?.studentName}</p> 
             <p> {event?.start.toLocaleDateString('en-GB')}  {event?.start.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} - {event?.end.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p> 
+             {event?.start > new Date() && <p><a target='blank' className={styled.link} rel="noreferrer" href={event?.zoomLink} >Join Zoom </a> </p> } 
             </div>
         )
       })}

@@ -24,7 +24,7 @@ import TodayLessons from '../pages/teacherPages/classes/studentClasses/TodayLess
 import Reviews from '../pages/teacherPages/classes/studentClasses/Reviews';
 const StudentRouter = () => {
   return (
-    <>
+    <> 
     <Routes>
       <Route path='/' element={<StudentHome />}/>
         <Route path='/teachers' element={<Teachers/>}/>

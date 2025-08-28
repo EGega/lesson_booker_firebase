@@ -57,10 +57,13 @@ const TeacherClasses = () => {
         console.error("Error deleting event:", error);
       }
     };
-
+ 
   const CustomEvent = ({ event }) => (
     <div>
       <strong>{event.title}</strong>
+      <div>
+       {event?.start > new Date() && <a className={styled.link} href={event.zoomLink} target="_blank" rel="noreferrer">Join Zoom</a> }
+     </div>
       <FaTrash className={styled.trashBin} onClick={() => removeEvent(event.id, event.start)} />
     </div>
   );

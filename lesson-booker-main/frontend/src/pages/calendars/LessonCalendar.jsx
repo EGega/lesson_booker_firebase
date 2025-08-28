@@ -301,7 +301,7 @@ const CustomEvent = ({ event }) => (
 <strong>{event.title}</strong>
 {event.isCurrentStudent && (
 <div>
-<a href={event.zoomLink} target="_blank" rel="noreferrer">Join Zoom</a>
+ {event?.start > new Date() && <a href={event.zoomLink} target="_blank" rel="noreferrer">Join Zoom</a> }
 </div>
 )}
 {event.isCurrentStudent && (

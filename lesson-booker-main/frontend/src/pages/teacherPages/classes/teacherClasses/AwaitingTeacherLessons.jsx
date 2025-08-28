@@ -52,6 +52,7 @@ const [events, setEvents] = useState([]);
             <div className={styled.event}>
             <p>{event?.studentName}</p> 
             <p> {event?.start.toLocaleDateString('en-GB')}  {event?.start.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} - {event?.end.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p> 
+            <p><a className={styled.link} target='blank' rel="noreferrer" href={event?.zoomLink} >Join Zoom </a> </p>
             </div>
         )
       })}

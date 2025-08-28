@@ -51,11 +51,12 @@ const TodayLessons = () => {
         <div className={styled.container}>
         <h4>Today's Lessons: {events.length} </h4>
         <div className={styled.lesson}>
-          {events.map((event) => {
+          {events.map((event) => {            
             return (
                 <div className={styled.event}>
                 <p>{event?.teacherName}</p> 
                 <p> {event?.start.toLocaleDateString('en-GB')}  {event?.start.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} - {event?.end.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p> 
+                 {event?.start > new Date() && <p><a target='blank' href={event?.zoomLink} >Join Zoom </a> </p> } 
                 </div>
             )
           })}
