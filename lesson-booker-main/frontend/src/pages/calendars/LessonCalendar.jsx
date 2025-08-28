@@ -215,8 +215,8 @@ const payload = {
 start_time: startISO,
 end_time: endISO, // optional; backend will compute if missing
 topic: `${auth?.currentUser?.displayName} - ${teacherName}`,
-duration: 60,
-timezone: "UTC", // or your desired TZ
+duration: 25,
+timezone: "UTC", 
 teacherID: selectedTeacherID,
 teacherName,
 studentID: auth.currentUser.uid,
@@ -246,7 +246,6 @@ throw new Error(err.error || `HTTP ${resp.status}`);
 const createdEvent = await resp.json();
  
 
-// Update local state so calendar updates immediately
 setEvents((prev) => [
 ...prev,
 {
@@ -264,22 +263,60 @@ alert(error.message || "Failed to book lesson");
 };
 
 
-  const removeEvent = async (eventId, eventStartTime) => {
-    const currentTime = new Date();
-    const timeDifference = new Date(eventStartTime) - currentTime;
+  // const removeEvent = async (eventId, eventStartTime) => {
+  //   const currentTime = new Date();
+  //   const timeDifference = new Date(eventStartTime) - currentTime;
   
-    if (timeDifference <= 2 * 60 * 60 * 1000) {
-      alert("You cannot delete an event less than 2 hours before its start time.");
-      return;
+  //   if (timeDifference <= 2 * 60 * 60 * 1000) {
+  //     alert("You cannot delete an event less than 2 hours before its start time.");
+  //     return;
+  //   }
+  //   try {
+  //     const eventRef = doc(db, "events", eventId);
+  //     await deleteDoc(eventRef);
+  //     setEvents(events.filter((event) => event.id !== eventId)); 
+  //   } catch (error) {
+  //     console.error("Error deleting event:", error);
+  //   }
+  // };
+
+
+const removeEvent = async (eventId, eventStartTime) => {
+  const currentTime = new Date();
+  const start = eventStartTime instanceof Date ? eventStartTime : new Date(eventStartTime);
+  const timeDifference = start.getTime() - currentTime.getTime();
+
+  if (timeDifference <= 2 * 60 * 60 * 1000) {
+    alert("You cannot delete an event less than 2 hours before its start time.");
+    return;
+  }
+
+  if (!window.confirm("Are you sure you want to delete this lesson? This will also cancel the Zoom meeting.")) {
+    return;
+  }
+
+  try {
+    const idToken = await getIdToken();
+    const resp = await fetch(`http://localhost:4000/delete-zoom-meeting/${eventId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${resp.status}`);
     }
-    try {
-      const eventRef = doc(db, "events", eventId);
-      await deleteDoc(eventRef);
-      setEvents(events.filter((event) => event.id !== eventId)); 
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
-  };
+    setEvents((prev) => prev.filter((e) => e.id !== eventId));
+    refreshCalendar();
+    alert("Event and Zoom meeting deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    alert(error.message || "Failed to delete event");
+  }
+};
+
 
   // const CustomEvent = ({ event }) => { 
   //   return ( 
@@ -297,21 +334,25 @@ alert(error.message || "Failed to book lesson");
 
 
 const CustomEvent = ({ event }) => (
-<div>
-<strong>{event.title}</strong>
-{event.isCurrentStudent && (
-<div>
- {event?.start > new Date() && <a href={event.zoomLink} target="_blank" rel="noreferrer">Join Zoom</a> }
-</div>
-)}
-{event.isCurrentStudent && (
-<FaTrash
-className={styled.trashBin}
-onClick={() => removeEvent(event.id, event.start)}
-/>
-)}
-</div>
+  <div>
+    <strong>{event.title}</strong>
+
+    {event.isCurrentStudent && (
+      <div>
+        {event.start > new Date() && (
+          <a href={event.zoomLink} target="_blank" rel="noreferrer">
+            Join Zoom
+          </a>
+        )}
+        <FaTrash
+          className={styled.trashBin}
+          onClick={() => removeEvent(event.id, event.start)}
+        />
+      </div>
+    )}
+  </div>
 );
+
   
 
   return (

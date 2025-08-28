@@ -131,7 +131,7 @@ const zoom = await createZoomMeeting({ topic, start_time, duration, timezone });
 const startDate = new Date(start_time);
 const endDate = end_time
 ? new Date(end_time)
-: new Date(startDate.getTime() + (duration || 60) * 60 * 1000);
+: new Date(startDate.getTime() + (duration || 30) * 60 * 1000);
 
 
 const eventDoc = {
@@ -143,7 +143,7 @@ studentID,
 teacherID,
 teacherName,
 zoomLink: zoom.join_url, // student link
-zoomStartLink: zoom.start_url, // host link (teacher)
+zoomStartLink: zoom.start_url, // teacher link
 zoomMeetingId: zoom.id,
 createdAt: admin.firestore.FieldValue.serverTimestamp(),
 };
@@ -157,6 +157,72 @@ return res.json({ id: ref.id, ...eventDoc });
 console.error(err);
 return res.status(500).json({ error: err.message || "Failed to create meeting" });
 }
+});
+
+async function deleteZoomMeeting(meetingId) {
+  const accessToken = await getZoomAccessToken();
+  const resp = await fetch(`https://api.zoom.us/v2/meetings/${meetingId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  
+  if (!resp.ok) {
+    const errorData = await resp.json().catch(() => ({}));
+    throw new Error(`Zoom delete error: ${resp.status} ${errorData?.message || resp.statusText}`);
+  }
+  
+  return true; // Successfully deleted
+}
+
+app.delete("/delete-zoom-meeting/:eventId", requireFirebaseAuth, async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    
+    if (!eventId) {
+      return res.status(400).json({ error: "Event ID is required" });
+    }
+
+    const eventDoc = await db.collection("events").doc(eventId).get();
+    
+    if (!eventDoc.exists) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    const eventData = eventDoc.data();
+    
+ 
+    if (req.user?.uid !== eventData.studentID) {
+      return res.status(403).json({ error: "Not authorized to delete this event" });
+    }
+
+
+    const eventStartTime = eventData.start.toDate();
+    const currentTime = new Date();
+    const timeDifference = eventStartTime - currentTime;
+    
+    if (timeDifference <= 2 * 60 * 60 * 1000) {
+      return res.status(400).json({ error: "Cannot delete event less than 2 hours before start time" });
+    }
+
+    if (eventData.zoomMeetingId) {
+      try {
+        await deleteZoomMeeting(eventData.zoomMeetingId);
+        console.log(`Zoom meeting ${eventData.zoomMeetingId} deleted successfully`);
+      } catch (zoomError) {
+        console.error("Failed to delete Zoom meeting:", zoomError);
+      }
+    }
+
+    // 5) Delete from Firestore
+    await db.collection("events").doc(eventId).delete();
+
+    return res.json({ success: true, message: "Event and Zoom meeting deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err);
+    return res.status(500).json({ error: err.message || "Failed to delete meeting" });
+  }
 });
 
 
