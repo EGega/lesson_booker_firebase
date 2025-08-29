@@ -179,7 +179,6 @@ async function deleteZoomMeeting(meetingId) {
 app.delete("/delete-zoom-meeting/:eventId", requireFirebaseAuth, async (req, res) => {
   try {
     const { eventId } = req.params;
-    
     if (!eventId) {
       return res.status(400).json({ error: "Event ID is required" });
     }
@@ -191,9 +190,12 @@ app.delete("/delete-zoom-meeting/:eventId", requireFirebaseAuth, async (req, res
     }
 
     const eventData = eventDoc.data();
-    
+    const isStudent = req.user?.uid === eventData.studentID;
+    const isTeacher = req.user?.uid === eventData.teacherID;
+    const isAuthorized = isStudent || isTeacher;
  
-    if (req.user?.uid !== eventData.studentID) {
+      if (!isAuthorized) {
+      console.log("Authorization failed");
       return res.status(403).json({ error: "Not authorized to delete this event" });
     }
 
@@ -209,7 +211,7 @@ app.delete("/delete-zoom-meeting/:eventId", requireFirebaseAuth, async (req, res
     if (eventData.zoomMeetingId) {
       try {
         await deleteZoomMeeting(eventData.zoomMeetingId);
-        console.log(`Zoom meeting ${eventData.zoomMeetingId} deleted successfully`);
+        console.log(`Zoom meeting deleted successfully`);
       } catch (zoomError) {
         console.error("Failed to delete Zoom meeting:", zoomError);
       }

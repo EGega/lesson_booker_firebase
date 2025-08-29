@@ -11,11 +11,17 @@ import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/fire
 
 const localizer = momentLocalizer(moment);
 const TeacherClasses = () => {
+async function getIdToken() {
+const user = auth.currentUser;
+if (!user) throw new Error("Not authenticated");
+return await user.getIdToken();
+}
   const eventCollectionRef = collection(db, "events");
 
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
+     console.log(auth.currentUser.uid);
     const fetchStudentEvents = async () => {
       try {
         const teacherID = auth.currentUser.uid; 
@@ -41,22 +47,43 @@ const TeacherClasses = () => {
   
     fetchStudentEvents(); 
   }, []);
-  const removeEvent = async (eventId, eventStartTime) => {
-    const currentTime = new Date();
-    const timeDifference = new Date(eventStartTime) - currentTime;
-  
-    if (timeDifference <= 2 * 60 * 60 * 1000) {
-      alert("You cannot delete an event less than 2 hours before its start time.");
-      return;
+const removeEvent = async (eventId, eventStartTime) => {
+  const currentTime = new Date();
+  const start = eventStartTime instanceof Date ? eventStartTime : new Date(eventStartTime);
+  const timeDifference = start.getTime() - currentTime.getTime();
+
+  if (timeDifference <= 2 * 60 * 60 * 1000) {
+    alert("You cannot delete an event less than 2 hours before its start time.");
+    return;
+  }
+
+  if (!window.confirm("Are you sure you want to delete this lesson? This will also cancel the Zoom meeting.")) {
+    return;
+  }
+
+  try {
+    const idToken = await getIdToken();
+    const resp = await fetch(`http://localhost:4000/delete-zoom-meeting/${eventId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    if (!resp.ok) {
+      console.log(resp);
+      
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${resp.status}`);
     }
-      try {
-        const eventRef = doc(db, "events", eventId);
-        await deleteDoc(eventRef);
-        setEvents(events.filter((event) => event.id !== eventId)); 
-      } catch (error) {
-        console.error("Error deleting event:", error);
-      }
-    };
+    setEvents((prev) => prev.filter((e) => e.id !== eventId));
+    // refreshCalendar();
+    alert("Event and Zoom meeting deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    alert(error.message || "Failed to delete event");
+  }
+};
  
   const CustomEvent = ({ event }) => (
     <div>
